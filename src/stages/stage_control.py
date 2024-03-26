@@ -29,7 +29,7 @@ class Staging(object):
     internal state of that specific stage or stages.
 
     Attributes:
-        substrate         (int)    :    Substrate thickness
+        substrate         (int)   :    Substrate thickness
         incremental      (bool)   :    False -> Absolute Mode, True -> Incremental Mode
         default_feedrate (float)  :    Rate of movement in each stages
         x                (float)  :    Track movement in x stage
@@ -41,16 +41,16 @@ class Staging(object):
 
     def __init__(self, substrate = 0, incremental = False):
         """
-        Initizlizes a new instance of Staging class.
+        Initializes a new instance of Staging class.
 
         Parameters:
             substrate (int)     :  Substrate thickness
             incremental (bool)  :  False -> Absolute Mode, True -> Incremental Mode
         """
         self.default_feedrate = 1.0 # mm/s #Eventually replace with None
-        self.x = 0
-        self.y = 0
-        self.z = 0
+        self.x = 0.0
+        self.y = 0.0
+        self.z = 0.0
         self.initialized = True
 
 
@@ -382,7 +382,7 @@ class Aerotech(Staging):
             if z != None:
                 msg += ' Z' + repr(z)
         else:
-            raise ValueError('staging.goto_rapid() wad called with all None arguments')
+            raise ValueError('staging.goto_rapid() was called with all None arguments')
         msg += '\n'
         print(msg)
         self.send_message(msg)
