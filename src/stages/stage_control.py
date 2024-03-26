@@ -14,8 +14,6 @@ print(config_path)
 with open(config_path, 'r') as file:
     config = yaml.safe_load(file)
 
-print(config)
-
 # Placeholder for self.default_feedate. (do not delete)
 NOTHING = object()
 

@@ -21,6 +21,10 @@ connection:
   # If the process flow required more time increase this.
   SOCKET_TIMEOUT: 600
 
+# Stage Mode
+mode:
+  incremental: True
+
 # Substrate Thickness Configuration
 substrate:
   GLASS: 0
