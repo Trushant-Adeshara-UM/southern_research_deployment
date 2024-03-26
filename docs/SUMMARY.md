@@ -7,7 +7,7 @@
     - [Camera](./software/camera.md)
         - [PylonSDK](./software/camera/pylon.md)
         - [Blackfly](./software/camera/blackfly.md)
-    - [Anaconda](./software/conda.md)
+    - [Miniconda](./software/conda.md)
     - [Git Bash](./software/gitbash.md)
     - [Source Code Setup](./software/srcode.md)
 - [Stages](./stages.md)

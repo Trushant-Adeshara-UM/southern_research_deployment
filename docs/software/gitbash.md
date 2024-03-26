@@ -23,7 +23,9 @@
 ### 7. Configure Git Bash to work with Anaconda:
  If Anaconda is installed for current user then navigate to following location, else look for it in the root directory. Got to your user directory as follow:
 
-Goto **AppData -> Local -> miniconda3 -> etc -> profile.d** 
+Goto **{User} -> AppData -> Local -> miniconda3 -> etc -> profile.d** 
+
+Alternative location **{User} -> miniconda3 -> etc -> profile.d**
 
 ![](../assets/git_bash_toggle.png)
 ![](../assets/git_bash_hidden.png)
