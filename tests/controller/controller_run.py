@@ -1,6 +1,6 @@
 import os
-from time import sleep
 import sys
+from time import sleep
 import yaml
 
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..\..\src'))
