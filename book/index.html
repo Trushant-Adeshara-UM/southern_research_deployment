@@ -180,9 +180,19 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<ul>
-<li>Trushant Adeshara</li>
-</ul>
+<p align="justify">This guide provides a comprehensive walkthrough for installing, testing, and conducting ink printing experiments using Aerotech stages. The document outlines the essential software installations necessary for the process and offers a brief overview of each software component.</p>
+<h2 id="installation-guide"><a class="header" href="#installation-guide">Installation Guide</a></h2>
+<h3 id="a3200-motion-control-software"><a class="header" href="#a3200-motion-control-software">A3200 Motion Control Software</a></h3>
+<p align="justify">Developed by Aerotech, the A3200 software facilitates interaction with motion stages. While the Motion Composer is typically employed, integration with MATLAB or Python scripts is also supported. This guide emphasizes a Python-based approach, highlighting how to utilize the A3200's communication features to interface with the ASCII server and control the stages via the host computer's IP address.</p>
+<h3 id="camera-integration-for-feedback"><a class="header" href="#camera-integration-for-feedback">Camera Integration for Feedback</a></h3>
+<p align="justify">The implementation incorporates vision algorithms utilizing cameras from Basler (Pylon) and Blackfly. These cameras serve as feedback mechanisms, enabling precise line width estimation for controller inputs. Python APIs provided by both camera manufacturers are leveraged to maximize their functionalities.</p>
+<h3 id="anaconda-for-python-environment-management"><a class="header" href="#anaconda-for-python-environment-management">Anaconda for Python Environment Management</a></h3>
+<p align="justify">Given that the project is Python-centric, managing different Python package versions is crucial. This guide recommends using Conda environments for this purpose. Conda is highly effective in duplicating a set of dependencies, streamlining the setup process.</p>
+<h3 id="git-bash-for-windows-development"><a class="header" href="#git-bash-for-windows-development">Git Bash for Windows Development</a></h3>
+<p align="justify">The development environment is based on Windows, where native Linux commands are not directly applicable. Git Bash is introduced as a solution to this limitation. This guide includes instructions to configure Conda within Git Bash, addressing the absence of native Conda support.</p>
+<h3 id="source-code-and-initial-setup"><a class="header" href="#source-code-and-initial-setup">Source Code and Initial Setup</a></h3>
+<p align="justify">The software package is hosted on GitHub. Detailed instructions for the initial setup and configuration are provided. While new system installations may encounter missing dependencies, this guide assures easy resolution through pip or Conda, ensuring a smooth environment setup.</p>
+<p align="justify">This documentation aims to facilitate a seamless setup and operational process for conducting ink printing experiments with Aerotech stages, utilizing advanced camera feedback and efficient Python environment management.</p>
 
                     </main>
 
