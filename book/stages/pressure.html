@@ -180,6 +180,29 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="pressure"><a class="header" href="#pressure">Pressure</a></h1>
+<p align="justify">The model to convert pressure in PSI to dedicated voltage will be implemented in the <b>printer.py</b> file. That voltage would then be passed to setPressure method in Aerotech Class declared in <b>stage_control.py</b>.</p>
+<p>Definition of the method is as follow:</p>
+<p><img src="./../assets/pressure_method.png" alt="" /></p>
+<p align="justify">Two considerations to keep in mind, the pressure passed as argument to set_pressure method is corresponding voltages (not PSI) and it can be seen that the pressure circuit it attached to X stage controller.</p>
+<p align="justify">The <b>pressure.yaml</b> configuration file contains gain and bias to convert either pressure (PSI) -> volatage or vice versa:</p>
+<ul>
+<li>params:
+<ul>
+<li>gain: 0.0844</li>
+<li>bias: 0.0899</li>
+</ul>
+</li>
+</ul>
+<pre><code>voltage = gain * pressure + bias       # PSI -&gt; V
+
+pressure = (voltage - bias) / gain     # V -&gt; PSI
+</code></pre>
+<h3 id="test-pressure"><a class="header" href="#test-pressure">Test Pressure</a></h3>
+<p>In order to test the pressure, we can run tests -&gt; stages -&gt; pressure_test.py using following command from root directory: (Pressure is passed as an argument in PSI)</p>
+<pre><code>python tests/stages/pressure_test.py 12 
+
+python tests/stages/pressure_test.py 0 
+</code></pre>
 
                     </main>
 

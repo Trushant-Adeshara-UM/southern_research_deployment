@@ -325,7 +325,7 @@ class Aerotech(Staging):
         self.send_message(msg)
 
 
-    def setPressure(self, pressure = None):
+    def set_pressure(self, pressure = None):
         """
         Method to set pressure of the system.
 

@@ -267,7 +267,7 @@
 <ul>
 <li>Open Git Bash from directory containing profile.d and execute following command:</li>
 </ul>
-<pre><code>echo ".${PWD}/conda.sh" &gt;&gt; ~/.bashrc
+<pre><code>echo ". ${PWD}/conda.sh" &gt;&gt; ~/.bashrc
 </code></pre>
 <ul>
 <li>If the path contains spaces even in user name then use following command:</li>
@@ -345,8 +345,47 @@ pip install sympy
 <p>Verification to this could be done using A3200 CNC Operator.</p>
 <p><img src="stages/../assets/stage_test_val.png" alt="" /></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pressure"><a class="header" href="#pressure">Pressure</a></h1>
+<p align="justify">The model to convert pressure in PSI to dedicated voltage will be implemented in the <b>printer.py</b> file. That voltage would then be passed to setPressure method in Aerotech Class declared in <b>stage_control.py</b>.</p>
+<p>Definition of the method is as follow:</p>
+<p><img src="stages/./../assets/pressure_method.png" alt="" /></p>
+<p align="justify">Two considerations to keep in mind, the pressure passed as argument to set_pressure method is corresponding voltages (not PSI) and it can be seen that the pressure circuit it attached to X stage controller.</p>
+<p align="justify">The <b>pressure.yaml</b> configuration file contains gain and bias to convert either pressure (PSI) -> volatage or vice versa:</p>
+<ul>
+<li>params:
+<ul>
+<li>gain: 0.0844</li>
+<li>bias: 0.0899</li>
+</ul>
+</li>
+</ul>
+<pre><code>voltage = gain * pressure + bias       # PSI -&gt; V
+
+pressure = (voltage - bias) / gain     # V -&gt; PSI
+</code></pre>
+<h3 id="test-pressure"><a class="header" href="#test-pressure">Test Pressure</a></h3>
+<p>In order to test the pressure, we can run tests -&gt; stages -&gt; pressure_test.py using following command from root directory: (Pressure is passed as an argument in PSI)</p>
+<pre><code>python tests/stages/pressure_test.py 12 
+
+python tests/stages/pressure_test.py 0 
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="controller-overview"><a class="header" href="#controller-overview">Controller Overview</a></h1>
+<p align="justify">A P-type controller is implemented in <b>src -> control -> controller.py</b> based on the reference line width to output stage speed for achieving that line width. The configuration file containing process model parameters resides in <b>config -> controller.yaml</b> which has following structure:</p>
+<ul>
+<li>params:
+<ul>
+<li>gain: 201.22</li>
+<li>bias: 22.705</li>
+<li>C: 0.2</li>
+<li>ref_line_wdith: 280</li>
+</ul>
+</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="testing"><a class="header" href="#testing">Testing</a></h1>
+<p align="justify">In order to test if the controller is working as expected, we can run <b>tests -> controller -> controller_run.py </b>file which takes reference line width as input parameter from <b>controller.yaml</b> config file to generate stage speed to achieve that line width.</p>
+<pre><code>python tests/controller/controller_run.py
+</code></pre>
+<p><img src="control/../assets/controller_test.png" alt="" /></p>
+<p align="justify">For a given reference line width of 280 microns, intial stage speed according to the controller is 0.44187 mm/s. After a new line is printed at this speed, we will estimate line width using a vision system and that will serve as input for next iteration. This process will go on till the controller converges ( error is less than some delta ).</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="printer"><a class="header" href="#printer">Printer</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="vision"><a class="header" href="#vision">Vision</a></h1>
 

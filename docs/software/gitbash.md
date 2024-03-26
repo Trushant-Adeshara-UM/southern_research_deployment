@@ -33,7 +33,7 @@ Alternative location **{User} -> miniconda3 -> etc -> profile.d**
 
 - Open Git Bash from directory containing profile.d and execute following command:
 ```
-echo ".${PWD}/conda.sh" >> ~/.bashrc
+echo ". ${PWD}/conda.sh" >> ~/.bashrc
 ```
 
 - If the path contains spaces even in user name then use following command:
