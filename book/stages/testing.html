@@ -180,7 +180,20 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="testing-stage-connection"><a class="header" href="#testing-stage-connection">Testing Stage Connection</a></h1>
-<p align="justify">In order to test if the connection with stages is established, we can run <b>src -> tests -> stages -> stages_enable.py </b> file which will enable all three (X, Y and Z stage) by using following command. Verification to this could be done using A3200 CNC Operator.</p>
+<p align="justify">In order to test if the connection with stages is established, we can run <b>tests -> stages -> stages_enable.py </b> file which will enable all three (X, Y and Z stage) by using following command. </p> 
+<pre><code>python tests/stages/stages_enable.py
+</code></pre>
+<p><img src="../assets/stage_test.png" alt="" /></p>
+<p>The output states following:</p>
+<ul>
+<li>All three stages (X, Y and Z) are enabled in incremental mode.</li>
+<li>They are using SI units (Metric, Second).</li>
+<li>RAMP Rate is set to 100.</li>
+<li>All safezones are cleared.</li>
+<li>Lastly, Aerotech connection is closed after sending the commands.</li>
+</ul>
+<p>Verification to this could be done using A3200 CNC Operator.</p>
+<p><img src="../assets/stage_test_val.png" alt="" /></p>
 
                     </main>
 
