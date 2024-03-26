@@ -2,7 +2,7 @@
 authors = ["Trushant-Adeshara-UM"]
 language = "en"
 multilingual = false
-src = "src"
+src = "docs"
 title = "hardware_template"
 
 [rust]
