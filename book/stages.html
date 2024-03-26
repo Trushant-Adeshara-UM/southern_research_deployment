@@ -180,6 +180,40 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="stages-overview"><a class="header" href="#stages-overview">Stages Overview</a></h1>
+<p align="justify"> Codebase to control stages resides in <b>src -> stages -> stage_control.py</b> and the configuration file resides in <b> config -> stages.yaml </b>. First step would be to modify parameters in teh <b> stages.yaml </b> file which are as follow:
+</p>
+<ul>
+<li>connection:
+<ul>
+<li>PC_IP_ADDRESS: "000.000.00.00"</li>
+<li>PORT: 0000</li>
+<li>SOCKET_TIMEOUT: 600</li>
+</ul>
+</li>
+<li>mode:
+<ul>
+<li>incremental: True</li>
+</ul>
+</li>
+<li>substrate:
+<ul>
+<li>GLASS: 0</li>
+<li>SILICON: 1</li>
+</ul>
+</li>
+</ul>
+<p>Note: There are some parameters for Safety Zone which will be implemented later.</p>
+<h3 id="1-extract-ip-address-of-current-host-computer-attached-to-stages"><a class="header" href="#1-extract-ip-address-of-current-host-computer-attached-to-stages">1. Extract IP address of current host computer attached to stages:</a></h3>
+<p>Open command prompt and use following command:</p>
+<pre><code>ipconfig
+</code></pre>
+<p><img src="./assets/ip_fetch.png" alt="" /></p>
+<p>From the output use Ethernet adapter's IPv4 Address.</p>
+<h3 id="2-get-port-for-ascii-server"><a class="header" href="#2-get-port-for-ascii-server">2. Get Port for ASCII server:</a></h3>
+<p>Open A3200 Configuration Manager and in the left pane go to following parameter:</p>
+<p><strong>config_file -&gt; System -&gt; Communication -&gt; ASCII -&gt; CommandPort</strong></p>
+<p><img src="./assets/port_fetch.png" alt="" /></p>
+<p>Note: Keep all other parameters default for now.</p>
 
                     </main>
 
