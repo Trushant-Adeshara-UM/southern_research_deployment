@@ -20,5 +20,3 @@
 
 <p align="justify">The software package is hosted on GitHub. Detailed instructions for the initial setup and configuration are provided. While new system installations may encounter missing dependencies, this guide assures easy resolution through pip or Conda, ensuring a smooth environment setup.</p>
 
-<p align="justify">This documentation aims to facilitate a seamless setup and operational process for conducting ink printing experiments with Aerotech stages, utilizing advanced camera feedback and efficient Python environment management.</p>
-
