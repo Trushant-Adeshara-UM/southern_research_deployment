@@ -270,11 +270,10 @@
 <h3 id="6-complete-installation-and-press-finish"><a class="header" href="#6-complete-installation-and-press-finish">6. Complete installation and press Finish:</a></h3>
 <p><img src="software/../assets/gitbash_setup_complete.png" alt="" /></p>
 <h3 id="7-configure-git-bash-to-work-with-anaconda"><a class="header" href="#7-configure-git-bash-to-work-with-anaconda">7. Configure Git Bash to work with Anaconda:</a></h3>
-<ul>
-<li>If Anaconda is installed for current user then navigate to following location, else look for it in the root directory:</li>
-</ul>
-<pre><code>\path\Users\{user_name}\AppData\Local\miniconda\etc\profile.d
-</code></pre>
+<p>If Anaconda is installed for current user then navigate to following location, else look for it in the root directory. Got to your user directory as follow:</p>
+<p>Goto <strong>AppData -&gt; Local -&gt; miniconda3 -&gt; etc -&gt; profile.d</strong></p>
+<p><img src="software/../assets/git_bash_toggle.png" alt="" />
+<img src="software/../assets/git_bash_hidden.png" alt="" /></p>
 <ul>
 <li>Open Git Bash from directory containing profile.d and execute following command:</li>
 </ul>
@@ -328,33 +327,23 @@ pip install sympy
 </li>
 </ul>
 <p>Note: There are some parameters for Safety Zone which will be implemented later.</p>
-<h3 id="1-extract-ip-address-of-current-host-computer-attached-to-stages"><a class="header" href="#1-extract-ip-address-of-current-host-computer-attached-to-stages">1. Extract IP address of current host computer attached to stages:</a></h3>
-<p>Open command prompt and use following command:</p>
-<pre><code>ipconfig
-</code></pre>
-<p><img src="./assets/ip_fetch.png" alt="" /></p>
-<p>From the output use Ethernet adapter's IPv4 Address.</p>
-<h3 id="2-get-port-for-ascii-server"><a class="header" href="#2-get-port-for-ascii-server">2. Get Port for ASCII server:</a></h3>
-<p>Open A3200 Configuration Manager and in the left pane go to following parameter:</p>
-<p><strong>config_file -&gt; System -&gt; Communication -&gt; ASCII -&gt; CommandPort</strong></p>
-<p><img src="./assets/port_fetch.png" alt="" /></p>
-<p>Note: Keep all other parameters default for now.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="connection"><a class="header" href="#connection">Connection</a></h1>
-<h3 id="1-extract-ip-address-of-current-host-computer-attached-to-stages-1"><a class="header" href="#1-extract-ip-address-of-current-host-computer-attached-to-stages-1">1. Extract IP address of current host computer attached to stages:</a></h3>
+<h3 id="1-extract-ip-address-of-current-host-computer-attached-to-stages"><a class="header" href="#1-extract-ip-address-of-current-host-computer-attached-to-stages">1. Extract IP address of current host computer attached to stages:</a></h3>
 <p>Open command prompt and use following command:</p>
 <pre><code>ipconfig
 </code></pre>
 <p><img src="stages/../assets/ip_fetch.png" alt="" /></p>
 <p>From the output use Ethernet adapter's IPv4 Address.</p>
-<h3 id="2-get-port-for-ascii-server-1"><a class="header" href="#2-get-port-for-ascii-server-1">2. Get Port for ASCII server:</a></h3>
+<h3 id="2-get-port-for-ascii-server"><a class="header" href="#2-get-port-for-ascii-server">2. Get Port for ASCII server:</a></h3>
 <p>Open A3200 Configuration Manager and in the left pane go to following parameter:</p>
 <p><strong>config_file -&gt; System -&gt; Communication -&gt; ASCII -&gt; CommandPort</strong></p>
 <p><img src="stages/../assets/port_fetch.png" alt="" /></p>
 <p>Note: Keep all other parameters default for now.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="testing"><a class="header" href="#testing">Testing</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="testing-stage-connection"><a class="header" href="#testing-stage-connection">Testing Stage Connection</a></h1>
+<p align="justify">In order to test if the connection with stages is established, we can run <b>src -> tests -> stages -> stages_enable.py </b> file which will enable all three (X, Y and Z stage) by using following command. Verification to this could be done using A3200 CNC Operator.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pressure"><a class="header" href="#pressure">Pressure</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="controller-overview"><a class="header" href="#controller-overview">Controller Overview</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="testing-1"><a class="header" href="#testing-1">Testing</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="testing"><a class="header" href="#testing">Testing</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="printer"><a class="header" href="#printer">Printer</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="vision"><a class="header" href="#vision">Vision</a></h1>
 
