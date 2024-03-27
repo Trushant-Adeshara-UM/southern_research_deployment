@@ -24,4 +24,6 @@ pip install sympy
 
 # yaml not found
 pip install pyyaml
-```
+``
+# argparse not found
+pip install argparse`

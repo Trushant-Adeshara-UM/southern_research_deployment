@@ -1,7 +1,7 @@
 import os
 import sys
 import yaml
-import argparser
+import argparse
 
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..\..\src'))
 print(root_path)
