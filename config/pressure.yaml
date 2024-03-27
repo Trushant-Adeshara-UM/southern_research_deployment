@@ -3,5 +3,5 @@
 
 # Pressure Configuration
 params:
-  gain: 0.0844
-  bias: 0.0899
+  gain: 0.05
+  bias: -0.0003
