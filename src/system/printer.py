@@ -8,7 +8,7 @@ root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 stage_config_path = os.path.join(root_path, '..\config\stages.yaml')
 controller_config_path = os.path.join(root_path, '..\config\controller.yaml')
 pressure_config_path = os.path.join(root_path, '..\config\pressure.yaml')
-system_config_path = os.path.join(root_path, '..\config\system.yaml')
+system_config_path = os.path.join(root_path, '..\config\printer.yaml')
 output_path = os.path.join(root_path, '\data')
 
 sys.path.insert(0, root_path)

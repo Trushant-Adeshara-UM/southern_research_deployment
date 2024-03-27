@@ -21,9 +21,26 @@ pressure = (voltage - bias) / gain     # V -> PSI
 ```
 
 ### Test Pressure
-In order to test the pressure, we can run tests -> stages -> pressure_test.py using following command from root directory: (Pressure is passed as an argument in PSI)
-```
-python tests/stages/pressure_test.py 12 
+<p align="justify">In order to test the pressure, we can run <b>tests -> stages -> pressure_test.py</b> using following command from root directory: (Pressure is passed as an argument in PSI)</p>
 
-python tests/stages/pressure_test.py 0 
+```
+python tests/stages/pressure_test.py --pressure 12
+
+python tests/stages/pressure_test.py --pressure 0
+```
+
+### Test Pressure Regulator
+<p align="justify">Pressure regulator will be turned on in the start of the experiement and turned off after the experiement is concluded. It can be tested using following command:</p>
+
+```
+python tests/stages/regulator_test.py --pressure 1  # Enable
+python tests/stages/regulator_test.py --pressure 0  # Disable
+```
+
+### Test Pressure Solenoid
+<p align="justify">Similar to pressure regulator, pressure solenoid will be turned on in the start of the experiement and turned off after the experiment is concluded. It can be tested using following command:</p>
+
+```
+python tests/stages/solenoid_test.py --pressure 1   # Enable
+python tests/stages/solenoid_test.py --pressure 0   # Disable
 ```

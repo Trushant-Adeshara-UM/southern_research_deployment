@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded "><a href="install.html"><strong aria-hidden="true">1.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="software/a3200.html"><strong aria-hidden="true">1.1.</strong> A3200</a></li><li class="chapter-item expanded "><a href="software/camera.html"><strong aria-hidden="true">1.2.</strong> Camera</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="software/camera/pylon.html"><strong aria-hidden="true">1.2.1.</strong> PylonSDK</a></li><li class="chapter-item expanded "><a href="software/camera/blackfly.html"><strong aria-hidden="true">1.2.2.</strong> Blackfly</a></li></ol></li><li class="chapter-item expanded "><a href="software/conda.html"><strong aria-hidden="true">1.3.</strong> Miniconda</a></li><li class="chapter-item expanded "><a href="software/gitbash.html"><strong aria-hidden="true">1.4.</strong> Git Bash</a></li><li class="chapter-item expanded "><a href="software/srcode.html"><strong aria-hidden="true">1.5.</strong> Source Code Setup</a></li></ol></li><li class="chapter-item expanded "><a href="stages.html"><strong aria-hidden="true">2.</strong> Stages</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="stages/connection.html"><strong aria-hidden="true">2.1.</strong> Connection</a></li><li class="chapter-item expanded "><a href="stages/testing.html"><strong aria-hidden="true">2.2.</strong> Testing</a></li><li class="chapter-item expanded "><a href="stages/pressure.html"><strong aria-hidden="true">2.3.</strong> Pressure</a></li></ol></li><li class="chapter-item expanded "><a href="controller.html"><strong aria-hidden="true">3.</strong> Controller</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="control/testing.html"><strong aria-hidden="true">3.1.</strong> Testing</a></li></ol></li><li class="chapter-item expanded "><a href="printer.html"><strong aria-hidden="true">4.</strong> Printer</a></li><li class="chapter-item expanded "><a href="vision.html"><strong aria-hidden="true">5.</strong> Vision</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded "><a href="install.html"><strong aria-hidden="true">1.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="software/a3200.html"><strong aria-hidden="true">1.1.</strong> A3200</a></li><li class="chapter-item expanded "><a href="software/camera.html"><strong aria-hidden="true">1.2.</strong> Camera</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="software/camera/pylon.html"><strong aria-hidden="true">1.2.1.</strong> PylonSDK</a></li><li class="chapter-item expanded "><a href="software/camera/blackfly.html"><strong aria-hidden="true">1.2.2.</strong> Blackfly</a></li></ol></li><li class="chapter-item expanded "><a href="software/conda.html"><strong aria-hidden="true">1.3.</strong> Miniconda</a></li><li class="chapter-item expanded "><a href="software/gitbash.html"><strong aria-hidden="true">1.4.</strong> Git Bash</a></li><li class="chapter-item expanded "><a href="software/srcode.html"><strong aria-hidden="true">1.5.</strong> Source Code Setup</a></li></ol></li><li class="chapter-item expanded "><a href="stages.html"><strong aria-hidden="true">2.</strong> Stages</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="stages/connection.html"><strong aria-hidden="true">2.1.</strong> Connection</a></li><li class="chapter-item expanded "><a href="stages/testing.html"><strong aria-hidden="true">2.2.</strong> Testing</a></li><li class="chapter-item expanded "><a href="stages/pressure.html"><strong aria-hidden="true">2.3.</strong> Pressure</a></li></ol></li><li class="chapter-item expanded "><a href="controller.html"><strong aria-hidden="true">3.</strong> Controller</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="control/testing.html"><strong aria-hidden="true">3.1.</strong> Testing</a></li></ol></li><li class="chapter-item expanded "><a href="printer.html"><strong aria-hidden="true">4.</strong> Printer</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="printer/testing.html"><strong aria-hidden="true">4.1.</strong> Testing</a></li></ol></li><li class="chapter-item expanded "><a href="vision.html"><strong aria-hidden="true">5.</strong> Vision</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -363,10 +363,20 @@ pip install sympy
 pressure = (voltage - bias) / gain     # V -&gt; PSI
 </code></pre>
 <h3 id="test-pressure"><a class="header" href="#test-pressure">Test Pressure</a></h3>
-<p>In order to test the pressure, we can run tests -&gt; stages -&gt; pressure_test.py using following command from root directory: (Pressure is passed as an argument in PSI)</p>
-<pre><code>python tests/stages/pressure_test.py 12 
+<p align="justify">In order to test the pressure, we can run <b>tests -> stages -> pressure_test.py</b> using following command from root directory: (Pressure is passed as an argument in PSI)</p>
+<pre><code>python tests/stages/pressure_test.py --pressure 12
 
-python tests/stages/pressure_test.py 0 
+python tests/stages/pressure_test.py --pressure 0
+</code></pre>
+<h3 id="test-pressure-regulator"><a class="header" href="#test-pressure-regulator">Test Pressure Regulator</a></h3>
+<p align="justify">Pressure regulator will be turned on in the start of the experiement and turned off after the experiement is concluded. It can be tested using following command:</p>
+<pre><code>python tests/stages/regulator_test.py --pressure 1  # Enable
+python tests/stages/regulator_test.py --pressure 0  # Disable
+</code></pre>
+<h3 id="test-pressure-solenoid"><a class="header" href="#test-pressure-solenoid">Test Pressure Solenoid</a></h3>
+<p align="justify">Similar to pressure regulator, pressure solenoid will be turned on in the start of the experiement and turned off after the experiment is concluded. It can be tested using following command:</p>
+<pre><code>python tests/stages/solenoid_test.py --pressure 1   # Enable
+python tests/stages/solenoid_test.py --pressure 0   # Disable
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="controller-overview"><a class="header" href="#controller-overview">Controller Overview</a></h1>
 <p align="justify">A P-type controller is implemented in <b>src -> control -> controller.py</b> based on the reference line width to output stage speed for achieving that line width. The configuration file containing process model parameters resides in <b>config -> controller.yaml</b> which has following structure:</p>
@@ -386,7 +396,57 @@ python tests/stages/pressure_test.py 0
 </code></pre>
 <p><img src="control/../assets/controller_test.png" alt="" /></p>
 <p align="justify">For a given reference line width of 280 microns, intial stage speed according to the controller is 0.44187 mm/s. After a new line is printed at this speed, we will estimate line width using a vision system and that will serve as input for next iteration. This process will go on till the controller converges ( error is less than some delta ).</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="printer"><a class="header" href="#printer">Printer</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="printer-overview"><a class="header" href="#printer-overview">Printer Overview</a></h1>
+<p align="justify">Printer Class is the main class which will handle initialization of stages and controller. Images captured by camera interface will be pass to printer class. The location of this file is <b>src -> system -> printer.py</b> and the configuration file is <b>config -> printer.yaml</b> parameters to which are as follow:</p>
+<ul>
+<li>
+<p>axes:</p>
+<ul>
+<li>x_axis:
+<ul>
+<li>id: 0</li>
+<li>speed: 5</li>
+<li>speed_fast: 50</li>
+</ul>
+</li>
+<li>y_axis:
+<ul>
+<li>id: 1</li>
+<li>speed: 50</li>
+<li>speed_fast: 50</li>
+</ul>
+</li>
+<li>z_axis:
+<ul>
+<li>id: 2</li>
+<li>speed: 50</li>
+<li>speed_slow: 0.5</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>camera_offset:</p>
+<ul>
+<li>-98.3159</li>
+<li>1.1260</li>
+<li>5.2599</li>
+</ul>
+</li>
+<li>
+<p>moving_height: 18</p>
+</li>
+<li>
+<p>recipe:</p>
+<ul>
+<li>0</li>
+<li>0</li>
+<li>0</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="testing-1"><a class="header" href="#testing-1">Testing</a></h1>
+<p>Printer class could be tested in two ways, one is to test movement without pressure and one with pressure.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="vision"><a class="header" href="#vision">Vision</a></h1>
 
                     </main>

@@ -17,4 +17,5 @@
 - [Controller](./controller.md)
     - [Testing](./control/testing.md)
 - [Printer](./printer.md)
+    - [Testing](./printer/testing.md)
 - [Vision](./vision.md)
