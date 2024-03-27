@@ -8,8 +8,8 @@ root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 config_path = os.path.join(root_path, '..\config\stages.yaml')
 sys.path.insert(0, root_path)
 
-print(root_path)
-print(config_path)
+#print(root_path)
+#print(config_path)
 
 with open(config_path, 'r') as file:
     config = yaml.safe_load(file)
@@ -334,7 +334,7 @@ class Aerotech(Staging):
                                       converted to respective voltage.
 
         Note:
-            Here analog pin0 on X stage is used which might not always be the case.
+            Here analog pin1 on X stage is used which might not always be the case.
 
         """
         if pressure != None:
@@ -342,7 +342,53 @@ class Aerotech(Staging):
             msg += '%0.6f' %pressure
 
         else:
-            raise ValueError('staging.setPressure() was called with all None arguments')
+            raise ValueError('staging.set_pressure() was called with all None arguments')
+        msg += '\n'
+        print(msg)
+        self.send_message(msg)
+
+
+    def set_pressure_regulator(self, pressure = None):
+        """
+        Method to set pressure of the system.
+
+        Parameters:
+            pressure  (float)    :    Using the process model intended pressure is
+                                      converted to respective voltage.
+
+        Note:
+            Here analog pin0 on X stage is used which might not always be the case.
+
+        """
+        if pressure != None:
+            msg = '$AO[0].X = '
+            msg += '%0.6f' %pressure
+
+        else:
+            raise ValueError('staging.set_pressure_regulator() was called with all None arguments')
+        msg += '\n'
+        print(msg)
+        self.send_message(msg)
+
+
+    def set_pressure_solenoid(self, pressure = None):
+        """
+        Method to set pressure of the system.
+
+        Parameters:
+            pressure  (float)    :    Using the process model intended pressure is
+                                      converted to respective voltage.
+
+        Note:
+            Here analog pin6 on X stage is used which might not always be the case.
+
+        """
+        if pressure != None:
+            msg = '$AO[6].X = '
+            msg += '%0.6f' %pressure
+
+        else:
+            raise ValueError('staging.set_pressure_solenoid() was called with all None arguments')
         msg += '\n'
         print(msg)
         self.send_message(msg)

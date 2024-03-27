@@ -39,19 +39,7 @@ args = parser.parse_args()
 
 aerotech_test = Aerotech(stage_config['substrate']['GLASS'], stage_config['mode']['incremental'])
 
-def set_pressure(pressure):
-    voltage = pressure_config['params']['gain'] * pressure + pressure_config['params']['bias']
-
-    if voltage < 0.1:
-        voltage = 0
-        aerotech_test.set_pressure(voltage)
-    elif voltage > 5:
-        voltage = 5
-        aerotech_test.set_pressure(voltage)
-    else:
-        aerotech_test.set_pressure(voltage)
-
-set_pressure(args.pressure)
+aerotech_test.set_pressure_solenoid(args.pressure)
 
 
 
