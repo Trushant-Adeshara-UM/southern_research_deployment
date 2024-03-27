@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded "><a href="install.html"><strong aria-hidden="true">1.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="software/a3200.html"><strong aria-hidden="true">1.1.</strong> A3200</a></li><li class="chapter-item expanded "><a href="software/camera.html"><strong aria-hidden="true">1.2.</strong> Camera</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="software/camera/pylon.html"><strong aria-hidden="true">1.2.1.</strong> PylonSDK</a></li><li class="chapter-item expanded "><a href="software/camera/blackfly.html"><strong aria-hidden="true">1.2.2.</strong> Blackfly</a></li></ol></li><li class="chapter-item expanded "><a href="software/conda.html"><strong aria-hidden="true">1.3.</strong> Miniconda</a></li><li class="chapter-item expanded "><a href="software/gitbash.html"><strong aria-hidden="true">1.4.</strong> Git Bash</a></li><li class="chapter-item expanded "><a href="software/srcode.html"><strong aria-hidden="true">1.5.</strong> Source Code Setup</a></li></ol></li><li class="chapter-item expanded "><a href="stages.html"><strong aria-hidden="true">2.</strong> Stages</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="stages/connection.html"><strong aria-hidden="true">2.1.</strong> Connection</a></li><li class="chapter-item expanded "><a href="stages/testing.html"><strong aria-hidden="true">2.2.</strong> Testing</a></li><li class="chapter-item expanded "><a href="stages/pressure.html"><strong aria-hidden="true">2.3.</strong> Pressure</a></li></ol></li><li class="chapter-item expanded "><a href="controller.html"><strong aria-hidden="true">3.</strong> Controller</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="control/testing.html"><strong aria-hidden="true">3.1.</strong> Testing</a></li></ol></li><li class="chapter-item expanded "><a href="printer.html"><strong aria-hidden="true">4.</strong> Printer</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="printer/testing.html"><strong aria-hidden="true">4.1.</strong> Testing</a></li></ol></li><li class="chapter-item expanded "><a href="vision.html"><strong aria-hidden="true">5.</strong> Vision</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded "><a href="install.html"><strong aria-hidden="true">1.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="software/a3200.html"><strong aria-hidden="true">1.1.</strong> A3200</a></li><li class="chapter-item expanded "><a href="software/camera.html"><strong aria-hidden="true">1.2.</strong> Camera</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="software/camera/pylon.html"><strong aria-hidden="true">1.2.1.</strong> PylonSDK</a></li><li class="chapter-item expanded "><a href="software/camera/blackfly.html"><strong aria-hidden="true">1.2.2.</strong> Blackfly</a></li></ol></li><li class="chapter-item expanded "><a href="software/conda.html"><strong aria-hidden="true">1.3.</strong> Miniconda</a></li><li class="chapter-item expanded "><a href="software/gitbash.html"><strong aria-hidden="true">1.4.</strong> Git Bash</a></li><li class="chapter-item expanded "><a href="software/srcode.html"><strong aria-hidden="true">1.5.</strong> Source Code Setup</a></li></ol></li><li class="chapter-item expanded "><a href="stages.html"><strong aria-hidden="true">2.</strong> Stages</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="stages/connection.html"><strong aria-hidden="true">2.1.</strong> Connection</a></li><li class="chapter-item expanded "><a href="stages/testing.html"><strong aria-hidden="true">2.2.</strong> Testing</a></li><li class="chapter-item expanded "><a href="stages/pressure.html"><strong aria-hidden="true">2.3.</strong> Pressure</a></li></ol></li><li class="chapter-item expanded "><a href="controller.html"><strong aria-hidden="true">3.</strong> Controller</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="control/testing.html"><strong aria-hidden="true">3.1.</strong> Testing</a></li></ol></li><li class="chapter-item expanded "><a href="printer.html"><strong aria-hidden="true">4.</strong> Printer</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="printer/testing.html"><strong aria-hidden="true">4.1.</strong> Testing</a></li></ol></li><li class="chapter-item expanded "><a href="vision.html"><strong aria-hidden="true">5.</strong> Vision</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="vision/testing.html"><strong aria-hidden="true">5.1.</strong> Testing</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -224,6 +224,43 @@
 <h3 id="12-once-installed-open-pylon-viewer-to-test-camera"><a class="header" href="#12-once-installed-open-pylon-viewer-to-test-camera">12. Once installed open Pylon Viewer to test camera:</a></h3>
 <p><img src="software/camera/../../assets/pylon_viewer.png" alt="" /></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="blackfly"><a class="header" href="#blackfly">Blackfly</a></h1>
+<ol>
+<li>Download <a href="https://www.flir.com/discover/iis/machine-vision/spinnaker-sdk/">Spinnaker SDK</a> and Python Spinnaker of the same version from Teledyne Flir website:
+<img src="software/camera/../../assets/spinnaker_site.png" alt="" /></li>
+</ol>
+<h3 id="note-spinnakers-python-api-for-python38-is-already-in-the-repo-if-you-need-another-version-refer-to-this-site"><a class="header" href="#note-spinnakers-python-api-for-python38-is-already-in-the-repo-if-you-need-another-version-refer-to-this-site">Note: Spinnaker's Python API for python3.8 is already in the repo. If you need another version, refer to this <a href="https://www.flir.com/discover/iis/machine-vision/spinnaker-sdk/">site</a>.</a></h3>
+<ol start="2">
+<li>
+<p>Install Spinnaker SDK with the wizard:
+<img src="software/camera/../../assets/spinnaker_wizard.png" alt="" /></p>
+</li>
+<li>
+<p>Select developer installation profile:
+<img src="software/camera/../../assets/spinnaker_sdk.png" alt="" /></p>
+</li>
+<li>
+<p>Make sure following components are selected:
+<img src="software/camera/../../assets/spinnaker_components.png" alt="" /></p>
+</li>
+<li>
+<p>Make sure GiGe driver is installed:
+<img src="software/camera/../../assets/spinnaker_gige.png" alt="" /></p>
+</li>
+<li>
+<p>Spinnaker adaptor configuration:
+<img src="software/camera/../../assets/spinnaker_adaptor.png" alt="" /></p>
+</li>
+<li>
+<p>Open Spin Viewer to test working:
+<img src="software/camera/../../assets/spinnaker_viewer.png" alt="" /></p>
+</li>
+</ol>
+<p>In order to configure Spinnaker's Python API, activate your conda environment if not already:</p>
+<pre><code>conda activate ./envs
+</code></pre>
+<p>Now install PySpin into your conda environment:</p>
+<pre><code>pip install addon/spinnaker_python-4.0.0.116-cp38-cp38-win_amd64/spinnaker_python-4.0.0.116-cp38-cp38-win_amd64.whl
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="miniconda"><a class="header" href="#miniconda">Miniconda</a></h1>
 <h3 id="1-download-miniconda-from-their-website"><a class="header" href="#1-download-miniconda-from-their-website">1. Download <a href="https://docs.anaconda.com/free/miniconda/miniconda-install/">Miniconda</a> from their website:</a></h3>
 <p><img src="software/../assets/miniconda_download.png" alt="" /></p>
@@ -462,7 +499,12 @@ python tests/stages/pressure_test.py --enable 0
 <p>Print line vertically:</p>
 <pre><code>python tests/print/vertical_line.py --length 15 --speed 0.4
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="vision"><a class="header" href="#vision">Vision</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="vision-overview"><a class="header" href="#vision-overview">Vision Overview</a></h1>
+<p align="justify">The end goal is to have camera interface which can easily be configured such that both Pylon and Spin API could be used in the system.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="testing-2"><a class="header" href="#testing-2">Testing</a></h1>
+<p>This is a sample script which will search all the attached cameras in the network and display output. To run the script execute following command:</p>
+<pre><code>python tests/camera/cam.py
+</code></pre>
 
                     </main>
 

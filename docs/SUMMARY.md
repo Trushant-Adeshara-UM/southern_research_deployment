@@ -19,3 +19,4 @@
 - [Printer](./printer.md)
     - [Testing](./printer/testing.md)
 - [Vision](./vision.md)
+    - [Testing](./vision/testing.md)

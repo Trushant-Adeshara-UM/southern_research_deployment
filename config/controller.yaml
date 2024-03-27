@@ -3,7 +3,7 @@
 
 # Controller Configuration
 params:
-  gain: -6.8
-  bias: 370
+  gain: 201.22
+  bias: 22.705
   C: 1
   ref_line_width: 280
