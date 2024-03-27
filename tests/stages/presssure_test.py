@@ -32,7 +32,8 @@ print()
 parser = argparse.ArgumentParser(description="Pressure value parser")
 
 # Add required flag for pressure
-parser.add_argument('--pressure', type=int, required=True, help='Pressure as integer value (PSI)')
+parser.add_argument('--pressure', type=int, required=False, help='Pressure as integer value (PSI)')
+parser.add_argument('--enable', type=int, required=True, help='Enable 1 Disable 0')
 
 # Parse the arguments
 args = parser.parse_args()
@@ -51,7 +52,9 @@ def set_pressure(pressure):
     else:
         aerotech_test.set_pressure(voltage)
 
+aerotech_test.set_pressure_regulator(args.enable)
 set_pressure(args.pressure)
+aerotech_test.set_pressure_solenoid(args.enable)
 
 
 

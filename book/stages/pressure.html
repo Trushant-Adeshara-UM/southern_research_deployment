@@ -198,20 +198,10 @@
 pressure = (voltage - bias) / gain     # V -&gt; PSI
 </code></pre>
 <h3 id="test-pressure"><a class="header" href="#test-pressure">Test Pressure</a></h3>
-<p align="justify">In order to test the pressure, we can run <b>tests -> stages -> pressure_test.py</b> using following command from root directory: (Pressure is passed as an argument in PSI)</p>
-<pre><code>python tests/stages/pressure_test.py --pressure 12
+<p align="justify">In order to test the pressure, we can run <b>tests -> stages -> pressure_test.py</b> using following command from root directory: (Pressure is passed as an argument in PSI along with regulator and solenoid enabler)</p>
+<pre><code>python tests/stages/pressure_test.py --pressure 12 --enable 1 
 
-python tests/stages/pressure_test.py --pressure 0
-</code></pre>
-<h3 id="test-pressure-regulator"><a class="header" href="#test-pressure-regulator">Test Pressure Regulator</a></h3>
-<p align="justify">Pressure regulator will be turned on in the start of the experiement and turned off after the experiement is concluded. It can be tested using following command:</p>
-<pre><code>python tests/stages/regulator_test.py --pressure 1  # Enable
-python tests/stages/regulator_test.py --pressure 0  # Disable
-</code></pre>
-<h3 id="test-pressure-solenoid"><a class="header" href="#test-pressure-solenoid">Test Pressure Solenoid</a></h3>
-<p align="justify">Similar to pressure regulator, pressure solenoid will be turned on in the start of the experiement and turned off after the experiment is concluded. It can be tested using following command:</p>
-<pre><code>python tests/stages/solenoid_test.py --pressure 1   # Enable
-python tests/stages/solenoid_test.py --pressure 0   # Disable
+python tests/stages/pressure_test.py --enable 0
 </code></pre>
 
                     </main>

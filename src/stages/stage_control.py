@@ -361,7 +361,7 @@ class Aerotech(Staging):
 
         """
         if pressure != None:
-            msg = '$AO[0].X = '
+            msg = '$DO[0].X = '
             msg += '%0.6f' %pressure
 
         else:
@@ -384,7 +384,7 @@ class Aerotech(Staging):
 
         """
         if pressure != None:
-            msg = '$AO[6].X = '
+            msg = '$DO[6].X = '
             msg += '%0.6f' %pressure
 
         else:
