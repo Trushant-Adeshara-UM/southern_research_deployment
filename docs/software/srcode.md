@@ -21,4 +21,7 @@ conda activate ./envs
 ```
 # sympy not found
 pip install sympy
+
+# yaml not found
+pip install pyyaml
 ```
