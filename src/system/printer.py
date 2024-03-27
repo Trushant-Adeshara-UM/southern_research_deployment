@@ -91,7 +91,7 @@ class Printer:
         
 
     def set_pressure(self, pressure):
-        voltage = pressure_config['params']['gain'] * pressure + pressure_config['params']['bias']
+        voltage = pressure_cfg['params']['gain'] * pressure + pressure_cfg['params']['bias']
 
         if voltage < 0.1:
             voltage = 0
@@ -102,9 +102,9 @@ class Printer:
             voltage = 5
             self.vdisp("Voltage too high, setting it to 5")
             self.staging.setPressure(voltage)
-            self.current_pressure = (voltage - pressure_config['params']['bias']) / pressure_config['params']['gain']
+            self.current_pressure = (voltage - pressure_cfg['params']['bias']) / pressure_cfg['params']['gain']
         else:
-            self.staging.setPressure(voltage)
+            self.staging.set_pressure(voltage)
             self.curretn_pressure = pressure
 
     def linear_print(self, axis, distance, speed):
@@ -123,6 +123,11 @@ class Printer:
         self.set_pressure_regulator(0)
         self.set_pressure_solenoid(0)
         self.current_location = [self.staging.x, self.staging.y, self.staging.z]
+
+
+    def linear_b(self, distance, speed):
+        self.staging.goto_b(b=distance, f=speed)
+
 
     def linear(self, axis, distance, speed):
         if (axis == 0):

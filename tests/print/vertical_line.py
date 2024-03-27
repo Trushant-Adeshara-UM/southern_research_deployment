@@ -16,6 +16,7 @@ parser = argparse.ArgumentParser(description="Pressure value parser")
 # Add required flag for pressure
 parser.add_argument('--length', type=int, required=True, help='Length of movement')
 parser.add_argument('--speed', type=float, required=True, help='Speed of stage')
+parser.add_argument('--pressure', type=int, required=True, help='Pressure while printing')
 
 # Parse the arguments
 args = parser.parse_args()
@@ -28,7 +29,19 @@ speed = args.speed
 
 printer = Printer()
 
-printer.linear_print(0, line_length, speed)
+printer.set_pressure_regulator(1)
+printer.set_pressure(args.pressure)
+printer.set_pressure_solenoid(1)
+
+printer.linear_b(0.1, 5)
+printer.linear(0, line_length, speed)
+printer.linear_b(-0.1, 5)
+
+printer.set_pressure(0)
+printer.set_pressure_regulator(0)
+printer.set_pressure_solenoid(0)
+
+
     
 
 

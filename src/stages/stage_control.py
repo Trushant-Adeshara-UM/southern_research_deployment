@@ -47,10 +47,18 @@ class Staging(object):
             substrate (int)     :  Substrate thickness
             incremental (bool)  :  False -> Absolute Mode, True -> Incremental Mode
         """
+
+        self.sci = True
+
         self.default_feedrate = 1.0 # mm/s #Eventually replace with None
         self.x = 0.0
         self.y = 0.0
         self.z = 0.0
+
+        #TODO
+        if self.sci:
+            self.b = 0.0
+
         self.initialized = True
 
 
@@ -74,6 +82,13 @@ class Staging(object):
             self.y += y
         if z != None:
             self.z += z
+
+    def goto_b(self, b = None, f = NOTHING):
+        if f is NOTHING:
+            f=self.default_feedrate
+        print('Moving by', b, ' at speed ', f, ' mm/s.\n')
+        if b != None:
+            self.b += b
 
 
     def gotoxyz(self, pos_array=(None,None,None), f=NOTHING):
@@ -216,6 +231,8 @@ class Aerotech(Staging):
 
         # Enable stages and set RAMP rate with unit system
         self.send_message('ENABLE X Y Z\n')
+        if self.sci:
+            self.send_message('ENABLE B\n')
         self.send_message('METRIC\n')
         self.send_message('SECOND\n')
         self.send_message('RAMP RATE 100\n')
@@ -322,6 +339,26 @@ class Aerotech(Staging):
             raise ValueError('staging.goto() was called with all None arguments')
         msg += '\n'
         print(msg)
+        self.send_message(msg)
+
+    def goto_b(self, b = None, f = NOTHING):
+
+        if f is NOTHING:
+            f = self.default_feedrate
+        if x != Nonw or y != None or z != None:
+            msg = 'LINEAR' #G1
+            if b != None:
+                msg += ' B' + ('%0.6f' %b)
+                self.b += b
+            if f != None:
+                msg += ' F' + ('%0.6f' %f)
+
+        elif f != None:
+            msg = 'F' + repr(f)
+        else:
+            raise ValueError('staging.goto_b() was called with all None arguments')
+        mag += '\n'
+        pirnt(msg)
         self.send_message(msg)
 
 
