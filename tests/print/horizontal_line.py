@@ -37,7 +37,7 @@ printer.staging.set_pressure_solenoid(1)
 
 printer.linear_b(0.1, 5)
 printer.linear(1, displacement, speed)
-printer.lienar_b(-0.1, 5)
+printer.linear_b(-0.1, 5)
 
 printer.set_pressure(0)
 printer.staging.set_pressure_regulator(0)

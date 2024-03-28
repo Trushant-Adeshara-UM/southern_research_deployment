@@ -95,12 +95,10 @@ class Printer:
 
         if voltage < 0.1:
             voltage = 0
-            self.vdisp("Voltage too low, setting to 0")
             self.staging.setPressure(voltage)
             self.current_pressure = 0
         elif voltage > 5:
             voltage = 5
-            self.vdisp("Voltage too high, setting it to 5")
             self.staging.setPressure(voltage)
             self.current_pressure = (voltage - pressure_cfg['params']['bias']) / pressure_cfg['params']['gain']
         else:
