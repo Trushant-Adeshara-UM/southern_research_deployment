@@ -40,8 +40,8 @@ printer.linear(0, displacement, speed)
 printer.linear_b(-0.1, 5)
 
 printer.set_pressure(0)
-printer.staging.set_pressure_regulator(0)
-printer.staging.set_pressure_solenoid(0)
+#printer.staging.set_pressure_regulator(0)
+#printer.staging.set_pressure_solenoid(0)
 
 
     

@@ -8,7 +8,7 @@
 
 ### 3. Create a new conda environment using following command and select y in the prompt:
 ```
-conda create --prefix envs
+conda create --prefix envs python=3.8
 ```
 ![](../assets/srcode_conda_env_create.png)
 
