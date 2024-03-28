@@ -23,17 +23,24 @@ Move stages in z axis:
 python tests/move/z.py --displacement 2 --speed 0.1
 ```
 
+Move stages in b axis:
+
+```
+python tests/move/b.py --displacement 0.1 --speed 5
+python tests/move/b.py --displacement -0.1 --speed 5
+```
+
 ### Print Test
 <p align="justify">In order to test the printing, two scripts are provided one of which prints vertically and other horizontally in <b>tests -> print</b> directory.</p>
 
 Print line horizontally:
 
 ```
-python tests/print/horizontal_line.py --displacement 15 --speed 0.4
+python tests/print/horizontal_line.py --displacement 15 --speed 0.4 --pressure 10
 ```
 
 Print line vertically:
 
 ```
-python tests/print/vertical_line.py --displacement 15 --speed 0.4
+python tests/print/vertical_line.py --displacement 15 --speed 0.4 --pressure 10
 ```

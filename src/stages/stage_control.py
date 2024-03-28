@@ -359,7 +359,7 @@ class Aerotech(Staging):
         else:
             raise ValueError('staging.goto_b() was called with all None arguments')
         msg += '\n'
-        pirnt(msg)
+        print(msg)
         self.send_message(msg)
 
 

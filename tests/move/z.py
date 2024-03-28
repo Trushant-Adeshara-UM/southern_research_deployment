@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import sys
 import yaml
@@ -22,13 +24,13 @@ args = parser.parse_args()
 
 print(args)
 
-line_length = args.length
+displacement = args.displacement
 
 speed = args.speed
 
 printer = Printer()
 
-printer.linear(2, line_length, speed)
+printer.linear(2, displacement, speed)
     
 
 

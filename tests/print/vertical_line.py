@@ -1,3 +1,5 @@
+#!/usr/bin/env python 
+
 import os
 import sys
 import yaml
@@ -23,7 +25,7 @@ args = parser.parse_args()
 
 print(args)
 
-line_length = args.length
+line_length = args.displacement
 
 speed = args.speed
 
@@ -34,7 +36,7 @@ printer.set_pressure(args.pressure)
 printer.set_pressure_solenoid(1)
 
 printer.linear_b(0.1, 5)
-printer.linear(0, line_length, speed)
+printer.linear(0, displacement, speed)
 printer.linear_b(-0.1, 5)
 
 printer.set_pressure(0)
