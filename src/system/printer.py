@@ -95,11 +95,11 @@ class Printer:
 
         if voltage < 0.1:
             voltage = 0
-            self.staging.setPressure(voltage)
+            self.staging.set_pressure(voltage)
             self.current_pressure = 0
         elif voltage > 5:
             voltage = 5
-            self.staging.setPressure(voltage)
+            self.staging.set_pressure(voltage)
             self.current_pressure = (voltage - pressure_cfg['params']['bias']) / pressure_cfg['params']['gain']
         else:
             self.staging.set_pressure(voltage)
