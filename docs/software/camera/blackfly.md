@@ -39,7 +39,7 @@ conda activate ./envs
 Now install PySpin into your conda environment:
 
 ```
-pip install addon/spinnaker_python/spinnaker_python.whl
+pip install addon/spinnaker_python/spinnaker_python-4.0.0.116-cp38-cp38-win_amd64.whl
 ```
 
 
