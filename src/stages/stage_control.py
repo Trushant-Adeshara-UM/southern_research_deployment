@@ -345,11 +345,12 @@ class Aerotech(Staging):
 
         if f is NOTHING:
             f = self.default_feedrate
-        if x != Nonw or y != None or z != None:
+
+        if b != None:
             msg = 'LINEAR' #G1
             if b != None:
                 msg += ' B' + ('%0.6f' %b)
-                self.b += b
+                self.b += b 
             if f != None:
                 msg += ' F' + ('%0.6f' %f)
 
@@ -357,7 +358,7 @@ class Aerotech(Staging):
             msg = 'F' + repr(f)
         else:
             raise ValueError('staging.goto_b() was called with all None arguments')
-        mag += '\n'
+        msg += '\n'
         pirnt(msg)
         self.send_message(msg)
 

@@ -14,7 +14,7 @@ from system.printer import Printer
 parser = argparse.ArgumentParser(description="Pressure value parser")
 
 # Add required flag for pressure
-parser.add_argument('--length', type=int, required=True, help='Length of movement')
+parser.add_argument('--displacement', type=float, required=True, help='Direction and length of movement')
 parser.add_argument('--speed', type=float, required=True, help='Speed of stage')
 
 # Parse the arguments

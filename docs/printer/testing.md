@@ -8,19 +8,19 @@
 Move stages in x axis:
 
 ```
-python tests/move/x.py --length 10 --speed 1
+python tests/move/x.py --displacement 10 --speed 1
 ```
 
 Move stages in y axis:
 
 ```
-python tests/move/y.py --length 10 --speed 1
+python tests/move/y.py --displacement 10 --speed 1
 ```
 
 Move stages in z axis:
 
 ```
-python tests/move/z.py --length 2 --speed 0.1
+python tests/move/z.py --displacement 2 --speed 0.1
 ```
 
 ### Print Test
@@ -29,11 +29,11 @@ python tests/move/z.py --length 2 --speed 0.1
 Print line horizontally:
 
 ```
-python tests/print/horizontal_line.py --length 15 --speed 0.4
+python tests/print/horizontal_line.py --displacement 15 --speed 0.4
 ```
 
 Print line vertically:
 
 ```
-python tests/print/vertical_line.py --length 15 --speed 0.4
+python tests/print/vertical_line.py --displacement 15 --speed 0.4
 ```
