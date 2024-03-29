@@ -3,9 +3,20 @@ import cv2
 import numpy as np
 from scipy.signal import medfilt2d
 from scipy.cluster.hierarchy import fclusterdata
+import yaml
 import time
+import sys
+import os
 
-base_path = 'C:\\Users\\trushant\\southern_research\\src'
+root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+config_path = os.path.join(root_path, '..\config\camera.yaml')
+sys.path.insert(0, root_path)
+
+print(root_path)
+print(config_path)
+
+with open(config_path, 'r') as file:
+    config = yaml.safe_load(file)
 
 class LineWidthEstimator():
     """
@@ -13,7 +24,7 @@ class LineWidthEstimator():
     """
 
     def __init__(self, image):
-        self.px_mm_factor = 1.52
+        self.px_mm_factor = config['params']['px_mm']
         self.threshold = 0.9
         self.image = image
 

@@ -5,16 +5,9 @@ import PySpin
 import cv2
 
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-config_path = os.path.join(root_path, '..\config\camera.yaml')
 sys.path.insert(0, root_path)
 
 print(root_path)
-print(config_path)
-
-with open(config_path, 'r') as file:
-    config = yaml.safe_load(file)
-
-
 
 class Camera:
     """
