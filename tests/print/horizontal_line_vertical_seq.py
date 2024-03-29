@@ -19,7 +19,6 @@ parser = argparse.ArgumentParser(description="Pressure value parser")
 
 # Add required flag for pressure
 parser.add_argument('--displacement', type=float, required=True, help='Direction and length of traversal')
-parser.add_argument('--speed', type=float, required=True, help='Speed of stage')
 parser.add_argument('--pressure', type=int, required=True, help='Pressure while printing')
 
 # Parse the arguments
@@ -40,8 +39,8 @@ update_print_location = [ [ 0, 0, 0],
 
 # Take input arguements from user
 displacement = args.displacement
-speed = args.speed
 printer = Printer()
+speed = printer.base_speed
 cam = Camera()
 cam.run_camera()
 

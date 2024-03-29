@@ -3,18 +3,25 @@ from sympy import symbols, diff
 import os
 import sys
 import yaml
+import datetime
+import csv
+import cv2
+import time
 
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 stage_config_path = os.path.join(root_path, '..\config\stages.yaml')
 controller_config_path = os.path.join(root_path, '..\config\controller.yaml')
 pressure_config_path = os.path.join(root_path, '..\config\pressure.yaml')
 system_config_path = os.path.join(root_path, '..\config\printer.yaml')
+camera_config_path = os.path.join(root_path, '..\config\camera.yaml')
 output_path = os.path.join(root_path, '\data')
 
 sys.path.insert(0, root_path)
 
 from stages.stage_control import Staging, Aerotech
 from control.controller import Controller
+from vision.camera import Camera
+from vision.line_width_estimator import LineWidthEstimator
 
 print(root_path)
 #print(stage_config_path)
@@ -33,9 +40,49 @@ with open(pressure_config_path, 'r') as file:
 with open(system_config_path, 'r') as file:
     system_cfg = yaml.safe_load(file)
 
+with open(camera_config_path, 'r') as file:
+    camera_cfg = yaml.safe_load(file)
+
 
 class Printer:
+    """
+    A printer class which provides access to stages, contoller and vision.
+
+    This class is the access point to build expriements for printing both
+    vertical and horizontal lines. It provides interface to interact with
+    stages, controller and camera along width line width estimation functionality.
+
+    Attributes:
+        xaxis                 (int)    :    x-axis identifier
+        yaxis                 (int)    :    y-axis identifier
+        zaxis                 (int)    :    z-axis identifier
+        xspeed                (float)  :    Stage speed in x-axis
+        yspeed                (float)  :    Stage speed in y-axis
+        zspeed                (float)  :    Stage speed in z-axis
+        zspeed_slow           (float)  :    Stage speed in z-axis (slower)
+        current_x             (float)  :    Current location in x-axis
+        current_y             (float)  :    Current location in y-axis
+        pressure              (int)    :    Pressure of the system
+        recipe                (list)   :    Recipe to print
+        starting_locations    (list)   :    Base location where the printing starts
+        controller            (class)  :    Instance of the controller class
+        base_speed            (float)  :    Base speed when the system starts
+        current_pressure      (int)    :    Current pressure of the system
+        current_location      (list)   :    Current location of stages in (x, y, z)
+        base_camera_offset    (list)   :    Camera offset at the start of the experiment
+        camera_offset         (list)   :    Camera offset after each iteration of printing
+        print_location        (list)   :    Location to print at
+        moving_height         (float)  :    Height in z-axis while moving from camera <-> nozzle
+        ref_width             (int)    :    Reference line width for controller
+        estimated_line_width  (float)  :    Estimated line width from vision system
+        staging               (int)    :    Instance of the Aerotech staging class
+
+    """
     def __init__(self):
+        """
+        Initializes a new instance of Printer class.
+        """
+
         # Axis specifier
         self.xaxis = system_cfg['axes']['x_axis']['id']
         self.yaxis = system_cfg['axes']['y_axis']['id']
@@ -79,9 +126,23 @@ class Printer:
 
 
     def update_process_speed(self, line_width, prev_speed):
+        """
+        Method which acts as interface for controller class to
+        provide updated print speed based on error in line width.
+
+        Parameters:
+            line_width (float)   :   Line width estimated by vision system
+            prev_speed (float)   :   Previous printing speed
+        """
         return self.controller.process_model(line_width, prev_speed)
 
     def save_controller_properties(self, data, filename):
+        """
+        Method to save controller parameters
+
+        Parameters:
+            data (list)   :   Data to be written in csv file
+        """
         timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         csv_path = os.path.join(output_path, filename)
 
@@ -91,6 +152,14 @@ class Printer:
         
 
     def set_pressure(self, pressure):
+        """
+        Set pressure of the system by taking input PSI
+        and converting that to voltage using provided
+        pressure model in pressure.yaml
+
+        Parameters:
+            pressure (float)    :    Pressure to set (PSI)
+        """
         voltage = pressure_cfg['params']['gain'] * pressure + pressure_cfg['params']['bias']
 
         if voltage < 0.1:
@@ -106,6 +175,7 @@ class Printer:
             self.curretn_pressure = pressure
 
     def linear_print(self, axis, distance, speed):
+        
         self.set_pressure_regulator(1)
         self.set_pressure(self.pressure)
         self.set_pressure_solenoid(1)
@@ -124,10 +194,26 @@ class Printer:
 
 
     def linear_b(self, distance, speed):
+        """
+        Method to move B stage used for printing.
+
+        Parameters:
+            distance (float)   :   Distance to travel
+            speed    (float)   :   Speed at which to travel
+        """
         self.staging.goto_b(b=distance, f=speed)
 
 
     def linear(self, axis, distance, speed):
+        """
+        Method to move stages in given axis by given distance
+        and given speed.
+
+        Parameters:
+            axis     (int)     :   Axis of movement
+            distance (float)   :   Distance to move by
+            speed    (float)   :   Speed to move with
+        """
         if (axis == 0):
             self.staging.goto(x=distance, f=speed)
         elif (axis == 1):
@@ -138,7 +224,7 @@ class Printer:
             raise Exception("Trying to move via a nonexistent axis")
         self.current_location = [self.staging.x, self.staging.y, self.staging.z]
 
-    def grab_image(self):
+    def grab_image_pylon(self):
         camera_controller = CameraController("measurement_camera")
         camera_controller.configure_for_software_trigger()
 
@@ -149,8 +235,25 @@ class Printer:
         camera_controller.close()
 
         return image
+    
+    def grab_image_flir(self):
+        """
+        Method to capture image from Flir Blackfly camera.
+        """
+        camera = Camera()
+        camera.run_camera()
+        image = camera.grab_image()
+        return image
  
     def estimate_line_width(self, image, cnt):
+        """
+        Method to calculate average line width using camera
+
+        Parameters:
+            axis     (int)     :   Axis of movement
+            distance (float)   :   Distance to move by
+            speed    (float)   :   Speed to move with
+        """
         estimator = LineWidthEstimator(image)
         binary, contour = estimator.contour_detection()
         angle = estimator.get_orientation(contour)
@@ -183,7 +286,15 @@ class Printer:
         return line_width
 
     def linear_estimator(self, axis, distance, speed):
+        """
+        Method that takes three iterations over entire line
+        and calls line_width_estimator function
 
+        Parameters:
+            axis     (int)     :   Axis of movement
+            distance (float)   :   Distance to move by
+            speed    (float)   :   Speed to move with
+        """
         intervals = [(distance/2.5), (distance/15), (distance/15)]
         line_widths = []
 
@@ -212,6 +323,12 @@ class Printer:
         return self.estimated_line_width
 
     def move_to_location(self, location):
+        """
+        Method to move to a specific location
+
+        Parameters:
+            location (list)   :   List to move by in all axis (x, y, z)
+        """
         current_z = self.current_location[2]
         self.linear(self.zaxis, self.moving_height - current_z, self.zspeed)
 
@@ -227,6 +344,10 @@ class Printer:
         #self.linear(self.zaxis, (location[2] - current_z) / 3, self.zspeed_slow)
 
     def move_to_camera(self):
+        """
+        Method to move to camera based on the camera offset.
+
+        """
         current_z = self.current_location[2]
         self.linear(self.zaxis, self.moving_height - current_z, self.zspeed)
 
@@ -242,6 +363,10 @@ class Printer:
         self.linear(self.zaxis, self.camera_offset[2] - current_z, self.zspeed)
 
     def move_to_nozzle(self):
+        """
+        Method to move to nozzle for printing.
+
+        """
         current_z = self.current_location[2]
         self.linear(self.zaxis, self.moving_height - current_z, self.zspeed)
 
