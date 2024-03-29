@@ -31,7 +31,7 @@ class Camera:
         self.system = PySpin.System.GetInstance()
 
         # Get current library version
-        self.version = syste.GetLibraryVersion()
+        self.version = self.system.GetLibraryVersion()
         print('Library version: %d.%d.%d.%d' % (self.version.major, self.version.minor, self.version.type, self.version.build))
 
         # Retrieve list of camera from the system
