@@ -44,11 +44,11 @@ class Camera:
         # Finish if there are no cameras
         if self.num_cameras == 0:
 
-        # Clear camera list before releasing system
-         self.cam_list.Clear()
+            # Clear camera list before releasing system
+            self.cam_list.Clear()
 
-        # Release system instance
-        self.system.ReleaseInstance()
+            # Release system instance
+            self.system.ReleaseInstance()
 
 
     def grab_image(self):
@@ -126,7 +126,7 @@ class Camera:
                 #  overwriting one another. Grabbing image IDs could also accomplish
                 #  this.
                 device_serial_number = ''
-                node_device_serial_number = PySpin.CStringPtr(nodemap_tldevice.GetNode('DeviceSerialNumber'))
+                node_device_serial_number = PySpin.CStringPtr(self.nodemap_tldevice.GetNode('DeviceSerialNumber'))
                 if PySpin.IsReadable(node_device_serial_number):
                     device_serial_number = node_device_serial_number.GetValue()
                     print('Device serial number retrieved as %s...' % device_serial_number)
@@ -136,47 +136,51 @@ class Camera:
 
 
                 # Retrieve and display images
-                while(continue_recording):
-                    try:
+                try:
 
-                        #  Retrieve next received image
-                        #
-                        #  *** NOTES ***
-                        #  Capturing an image houses images on the camera buffer. Trying
-                        #  to capture an image that does not exist will hang the camera.
-                        #
-                        #  *** LATER ***
-                        #  Once an image from the buffer is saved and/or no longer
-                        #  needed, the image must be released in order to keep the
-                        #  buffer from filling up.
+                    #  Retrieve next received image
+                    #
+                    #  *** NOTES ***
+                    #  Capturing an image houses images on the camera buffer. Trying
+                    #  to capture an image that does not exist will hang the camera.
+                    #
+                    #  *** LATER ***
+                    #  Once an image from the buffer is saved and/or no longer
+                    #  needed, the image must be released in order to keep the
+                    #  buffer from filling up.
 
-                        image_result = cam.GetNextImage(1000)
+                    image_result = cam.GetNextImage(1000)
 
-                        #  Ensure image completion
-                        if image_result.IsIncomplete():
-                            print('Image incomplete with image status %d ...' % image_result.GetImageStatus())
+                    #  Ensure image completion
+                    if image_result.IsIncomplete():
+                        print('Image incomplete with image status %d ...' % image_result.GetImageStatus())
 
-                        else:
+                    else:
 
-                            # Getting the image data as a numpy array
-                            image_data = image_result.GetNDArray()
-                            image = image_data.copy()
+                        # Getting the image data as a numpy array
+                        image_data = image_result.GetNDArray()
+                        image = image_data.copy()
 
-	        # Deinitialize camera
-	        cam.DeInit()
+                except:
+                    #Deinitialize camera
+                    cam.DeInit()
+                    print("Image Grab Failed")
+            
+            except:
+                print("Acquisition failed")
 
         return image
 
 	
 if __name__ == '__main__':
-	test = Camera()
-	data = test.grab_image() 
+    test = Camera()
+    data = test.grab_image() 
         
-	# Display the image
-	cv2.imshow('Example - Show image in window', data)
+    # Display the image
+    cv2.imshow('Example - Show image in window', data)
 
-	# Wait for a key press and then destroy all windows
-	cv2.waitKey(0)
+    # Wait for a key press and then destroy all windows
+    cv2.waitKey(0)
     cv2.destroyAllWindows()
 	
 
