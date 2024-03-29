@@ -2,6 +2,7 @@ import os
 import sys
 import yaml
 import PySpin
+import cv2
 
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 config_path = os.path.join(root_path, '..\config\camera.yaml')
@@ -170,6 +171,13 @@ class Camera:
 if __name__ == '__main__':
 	test = Camera()
 	data = test.grab_image() 
+        
+	# Display the image
+	cv2.imshow('Example - Show image in window', data)
+
+	# Wait for a key press and then destroy all windows
+	cv2.waitKey(0)
+cv2.destroyAllWindows()
 	
 
 
