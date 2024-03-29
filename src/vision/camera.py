@@ -31,75 +31,150 @@ class Camera:
 
         # Get current library version
         self.version = syste.GetLibraryVersion()
-        print('Library version: %d.%d.%d.%d' % (version.major, version.minor, version.type, version.build))
+        print('Library version: %d.%d.%d.%d' % (self.version.major, self.version.minor, self.version.type, self.version.build))
 
         # Retrieve list of camera from the system
-        cam_list = system.GetCameras()
+        self.cam_list = self.system.GetCameras()
 
-        num_cameras = cam_list.GetSize()
+        self.num_cameras = self.cam_list.GetSize()
 
-        print('Number of cameras detected: %d' % num_cameras)
+        print('Number of cameras detected: %d' % self.num_cameras)
 
+	# Finish if there are no cameras
+	if self.num_cameras == 0:
 
+	    # Clear camera list before releasing system
+	    self.cam_list.Clear()
 
-
-
-    def derivative_process_speed(self, line_width):
-        """
-        Evaluate derivative of the process model.
-
-        Parameters:
-            line_width (float)   :   Previous line width based on vision system
-
-        """
-        # Define the symbols
-        line_width_sym, process_gain_sym, process_bias_sym = symbols('line_width process_gain process_bias')
-
-        # Define the equation
-        equation = (process_gain_sym / (line_width_sym + process_bias_sym))**2
-
-        # Compute the derivative with respect to line_width
-        derivative = diff(equation, line_width_sym)
-
-        # Substitute the actual values
-        derivative_evaluated = derivative.subs({
-            line_width_sym: line_width,
-            process_gain_sym: self.process_gain,
-            process_bias_sym: self.process_bias
-        })
-
-        return derivative_evaluated
+	    # Release system instance
+	    self.system.ReleaseInstance()
 
 
-    def base_process(self, ref_line_width):
-        """
-        Method to evaluate initial stage speed based on ref_line_width.
+    def grab_image(self):
+	for i, cam in enumerate(self.cam_list):
+	    
+	   notemap_tldevice = cam.GetTLDeviceNodeMap()
 
-        Parameters:
-            ref_line_width (float)   :   Reference line width (expected)
+	   # Initialize camera
+	   nodemap = cam.GetNodeMap()
 
-        """
-        speed = (self.process_gain / (ref_line_width + self.process_bias)) ** 2
-        return speed
+	   # Acquire images
+	   sNodemap = cam.GetTLStreamNodeMap()
+
+	   # Change bufferhandling mode to NewestOnly
+	   node_bufferhandling_mode = PySpin.CEnumerationPtr(sNodemap.GetNode('StreamBufferHandlingMode'))
+	   if not PySpin.IsReadable(node_bufferhandling_mode) or not PySpin.IsWritable(node_bufferhandling_mode):
+           	print('Unable to set stream buffer handling mode.. Aborting...')
+        	return False
+
+     	   # Retrieve entry node from enumeration node
+           node_newestonly = node_bufferhandling_mode.GetEntryByName('NewestOnly')
+           if not PySpin.IsReadable(node_newestonly):
+               print('Unable to set stream buffer handling mode.. Aborting...')
+               return False
+
+           # Retrieve integer value from entry node
+           node_newestonly_mode = node_newestonly.GetValue()
+
+           # Set integer value from entry node as new value of enumeration node
+           node_bufferhandling_mode.SetIntValue(node_newestonly_mode) 
+
+	   print('**** IMAGE ACQUISITION ***\n')
+	   try:
+               node_acquisition_mode = PySpin.CEnumerationPtr(nodemap.GetNode('AcquisitionMode'))
+               if not PySpin.IsReadable(node_acquisition_mode) or not PySpin.IsWritable(node_acquisition_mode):
+                   print('Unable to set acquisition mode to continuous (enum retrieval). Aborting...')
+                   return False
+
+               # Retrieve entry node from enumeration node
+               node_acquisition_mode_continuous = node_acquisition_mode.GetEntryByName('Continuous')
+               if not PySpin.IsReadable(node_acquisition_mode_continuous):
+                   print('Unable to set acquisition mode to continuous (entry retrieval). Aborting...')
+                   return False
+
+               # Retrieve integer value from entry node
+               acquisition_mode_continuous = node_acquisition_mode_continuous.GetValue()
+
+               # Set integer value from entry node as new value of enumeration node
+               node_acquisition_mode.SetIntValue(acquisition_mode_continuous)
+
+               print('Acquisition mode set to continuous...')
+
+	       #  Begin acquiring images
+               #
+               #  *** NOTES ***
+               #  What happens when the camera begins acquiring images depends on the
+               #  acquisition mode. Single frame captures only a single image, multi
+               #  frame catures a set number of images, and continuous captures a
+               #  continuous stream of images.
+               #
+               #  *** LATER ***
+               #  Image acquisition must be ended when no more images are needed.
+               cam.BeginAcquisition()
+
+               print('Acquiring images...')
+
+               #  Retrieve device serial number for filename
+               #
+               #  *** NOTES ***
+               #  The device serial number is retrieved in order to keep cameras from
+               #  overwriting one another. Grabbing image IDs could also accomplish
+               #  this.
+               device_serial_number = ''
+               node_device_serial_number = PySpin.CStringPtr(nodemap_tldevice.GetNode('DeviceSerialNumber'))
+               if PySpin.IsReadable(node_device_serial_number):
+                   device_serial_number = node_device_serial_number.GetValue()
+                   print('Device serial number retrieved as %s...' % device_serial_number)
+
+               # Close program
+               print('Press enter to close the program..')
 
 
-    def process_model(self, line_width, prev_speed):
-        """
-        Method to calcuate updated print_speed and width_error based
-        on process model.
+               # Retrieve and display images
+               while(continue_recording):
+               try:
 
-        Parameters:
-            line_width (float)   :   Initial line width
-            prev_speed (float)   :   Previous stage speed
+                #  Retrieve next received image
+                #
+                #  *** NOTES ***
+                #  Capturing an image houses images on the camera buffer. Trying
+                #  to capture an image that does not exist will hang the camera.
+                #
+                #  *** LATER ***
+                #  Once an image from the buffer is saved and/or no longer
+                #  needed, the image must be released in order to keep the
+                #  buffer from filling up.
 
-        """
-        derivative = self.derivative_process_speed(line_width)
-        width_error = self.ref_line_width - line_width
-        learning_filter = self.C * derivative
-        self.learning_filter = learning_filter
-        print_speed = prev_speed + (learning_filter * width_error)
-        self.process_speed = print_speed
+                   image_result = cam.GetNextImage(1000)
 
-        return print_speed, width_error
+                   #  Ensure image completion
+                   if image_result.IsIncomplete():
+                       print('Image incomplete with image status %d ...' % image_result.GetImageStatus())
+
+                   else:
+
+                       # Getting the image data as a numpy array
+                       image_data = image_result.GetNDArray()
+
+	    # Deinitialize camera
+	    cam.DeInit()
+
+	    print('Not enough cameras!')
+
+	else:
+	    print('Camera ready to use!')
+
+    return image_data
+
+	
+if __name__ == '__main__':
+	test = Camera()
+	data = test.grab_image() 
+	
+
+
+
+
+
 
 
