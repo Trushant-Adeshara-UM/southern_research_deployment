@@ -50,130 +50,143 @@ class Camera:
             # Release system instance
             self.system.ReleaseInstance()
 
-
     def grab_image(self):
 
-        image = None
+        # Acquire images
+        sNodemap = self.cam.GetTLStreamNodeMap()
 
-        for i, cam in enumerate(self.cam_list):
-	    
-            notemap_tldevice = cam.GetTLDeviceNodeMap()
+        # Change bufferhandling mode to NewestOnly
+        node_bufferhandling_mode = PySpin.CEnumerationPtr(sNodemap.GetNode('StreamBufferHandlingMode'))
+        if not PySpin.IsReadable(node_bufferhandling_mode) or not PySpin.IsWritable(node_bufferhandling_mode):
+            print('Unable to set stream buffer handling mode.. Aborting...')
+            return False
 
-            # Initialize camera
-            nodemap = cam.GetNodeMap()
+        # Retrieve entry node from enumeration node
+        node_newestonly = node_bufferhandling_mode.GetEntryByName('NewestOnly')
+        if not PySpin.IsReadable(node_newestonly):
+            print('Unable to set stream buffer handling mode.. Aborting...')
+            return False
 
-            # Acquire images
-            sNodemap = cam.GetTLStreamNodeMap()
+        # Retrieve integer value from entry node
+        node_newestonly_mode = node_newestonly.GetValue()
 
-            # Change bufferhandling mode to NewestOnly
-            node_bufferhandling_mode = PySpin.CEnumerationPtr(sNodemap.GetNode('StreamBufferHandlingMode'))
-            if not PySpin.IsReadable(node_bufferhandling_mode) or not PySpin.IsWritable(node_bufferhandling_mode):
-                print('Unable to set stream buffer handling mode.. Aborting...')
+        # Set integer value from entry node as new value of enumeration node
+        node_bufferhandling_mode.SetIntValue(node_newestonly_mode) 
+
+        print('**** IMAGE ACQUISITION ***\n')
+        
+        try:
+            node_acquisition_mode = PySpin.CEnumerationPtr(self.nodemap.GetNode('AcquisitionMode'))
+            if not PySpin.IsReadable(node_acquisition_mode) or not PySpin.IsWritable(node_acquisition_mode):
+                print('Unable to set acquisition mode to continuous (enum retrieval). Aborting...')
                 return False
 
             # Retrieve entry node from enumeration node
-            node_newestonly = node_bufferhandling_mode.GetEntryByName('NewestOnly')
-            if not PySpin.IsReadable(node_newestonly):
-                print('Unable to set stream buffer handling mode.. Aborting...')
+            node_acquisition_mode_continuous = node_acquisition_mode.GetEntryByName('Continuous')
+            if not PySpin.IsReadable(node_acquisition_mode_continuous):
+                print('Unable to set acquisition mode to continuous (entry retrieval). Aborting...')
                 return False
 
             # Retrieve integer value from entry node
-            node_newestonly_mode = node_newestonly.GetValue()
+            acquisition_mode_continuous = node_acquisition_mode_continuous.GetValue()
 
             # Set integer value from entry node as new value of enumeration node
-            node_bufferhandling_mode.SetIntValue(node_newestonly_mode) 
+            node_acquisition_mode.SetIntValue(acquisition_mode_continuous)
 
-            print('**** IMAGE ACQUISITION ***\n')
-            
+            print('Acquisition mode set to continuous...')
+
+            #  Begin acquiring images
+            #
+            #  *** NOTES ***
+            #  What happens when the camera begins acquiring images depends on the
+            #  acquisition mode. Single frame captures only a single image, multi
+            #  frame catures a set number of images, and continuous captures a
+            #  continuous stream of images.
+            #
+            #  *** LATER ***
+            #  Image acquisition must be ended when no more images are needed.
+            self.cam.BeginAcquisition()
+
+            print('Acquiring images...')
+
+            #  Retrieve device serial number for filename
+            #
+            #  *** NOTES ***
+            #  The device serial number is retrieved in order to keep cameras from
+            #  overwriting one another. Grabbing image IDs could also accomplish
+            #  this.
+            device_serial_number = ''
+            node_device_serial_number = PySpin.CStringPtr(self.nodemap_tldevice.GetNode('DeviceSerialNumber'))
+            if PySpin.IsReadable(node_device_serial_number):
+                device_serial_number = node_device_serial_number.GetValue()
+                print('Device serial number retrieved as %s...' % device_serial_number)
+
+            # Close program
+            print('Press enter to close the program..')
+
+
+            # Retrieve and display images
             try:
-                node_acquisition_mode = PySpin.CEnumerationPtr(nodemap.GetNode('AcquisitionMode'))
-                if not PySpin.IsReadable(node_acquisition_mode) or not PySpin.IsWritable(node_acquisition_mode):
-                    print('Unable to set acquisition mode to continuous (enum retrieval). Aborting...')
-                    return False
 
-                # Retrieve entry node from enumeration node
-                node_acquisition_mode_continuous = node_acquisition_mode.GetEntryByName('Continuous')
-                if not PySpin.IsReadable(node_acquisition_mode_continuous):
-                    print('Unable to set acquisition mode to continuous (entry retrieval). Aborting...')
-                    return False
-
-                # Retrieve integer value from entry node
-                acquisition_mode_continuous = node_acquisition_mode_continuous.GetValue()
-
-                # Set integer value from entry node as new value of enumeration node
-                node_acquisition_mode.SetIntValue(acquisition_mode_continuous)
-
-                print('Acquisition mode set to continuous...')
-
-                #  Begin acquiring images
+                #  Retrieve next received image
                 #
                 #  *** NOTES ***
-                #  What happens when the camera begins acquiring images depends on the
-                #  acquisition mode. Single frame captures only a single image, multi
-                #  frame catures a set number of images, and continuous captures a
-                #  continuous stream of images.
+                #  Capturing an image houses images on the camera buffer. Trying
+                #  to capture an image that does not exist will hang the camera.
                 #
                 #  *** LATER ***
-                #  Image acquisition must be ended when no more images are needed.
-                cam.BeginAcquisition()
+                #  Once an image from the buffer is saved and/or no longer
+                #  needed, the image must be released in order to keep the
+                #  buffer from filling up.
 
-                print('Acquiring images...')
+                image_result = self.cam.GetNextImage(1000)
 
-                #  Retrieve device serial number for filename
-                #
-                #  *** NOTES ***
-                #  The device serial number is retrieved in order to keep cameras from
-                #  overwriting one another. Grabbing image IDs could also accomplish
-                #  this.
-                device_serial_number = ''
-                node_device_serial_number = PySpin.CStringPtr(self.nodemap_tldevice.GetNode('DeviceSerialNumber'))
-                if PySpin.IsReadable(node_device_serial_number):
-                    device_serial_number = node_device_serial_number.GetValue()
-                    print('Device serial number retrieved as %s...' % device_serial_number)
+                #  Ensure image completion
+                if image_result.IsIncomplete():
+                    print('Image incomplete with image status %d ...' % image_result.GetImageStatus())
 
-                # Close program
-                print('Press enter to close the program..')
+                else:
 
+                    # Getting the image data as a numpy array
+                    image_data = image_result.GetNDArray()
+                    image = image_data.copy()
 
-                # Retrieve and display images
-                try:
-
-                    #  Retrieve next received image
-                    #
-                    #  *** NOTES ***
-                    #  Capturing an image houses images on the camera buffer. Trying
-                    #  to capture an image that does not exist will hang the camera.
-                    #
-                    #  *** LATER ***
-                    #  Once an image from the buffer is saved and/or no longer
-                    #  needed, the image must be released in order to keep the
-                    #  buffer from filling up.
-
-                    image_result = cam.GetNextImage(1000)
-
-                    #  Ensure image completion
-                    if image_result.IsIncomplete():
-                        print('Image incomplete with image status %d ...' % image_result.GetImageStatus())
-
-                    else:
-
-                        # Getting the image data as a numpy array
-                        image_data = image_result.GetNDArray()
-                        image = image_data.copy()
-
-                except:
-                    #Deinitialize camera
-                    cam.DeInit()
-                    print("Image Grab Failed")
-            
             except:
-                print("Acquisition failed")
+                #Deinitialize camera
+                self.cam.DeInit()
+                print("Image Grab Failed")
+        
+        except:
+            print("Acquisition failed")
 
         return image
+
+
+
+    def run_camera(self):
+
+        # Run example on each camera
+        for i, cam in enumerate(self.cam_list):
+            print('Running example for camera %d...' % i)
+	    
+            self.nodemap_tldevice = cam.GetTLDeviceNodeMap()
+
+            self.cam = cam
+
+            # Initialize camera
+            self.cam.Init()
+
+            # Retrieve GenICam nodemap
+            self.nodemap = cam.GetNodeMap()
+
+
+###########
+            
 
 	
 if __name__ == '__main__':
     test = Camera()
+    test.run_camera()
     data = test.grab_image() 
         
     # Display the image
