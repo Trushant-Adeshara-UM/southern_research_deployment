@@ -53,6 +53,8 @@ class Camera:
 
     def grab_image(self):
 
+        image = None
+
         for i, cam in enumerate(self.cam_list):
 	    
             notemap_tldevice = cam.GetTLDeviceNodeMap()
@@ -135,34 +137,35 @@ class Camera:
 
                 # Retrieve and display images
                 while(continue_recording):
-                try:
+                    try:
 
-                    #  Retrieve next received image
-                    #
-                    #  *** NOTES ***
-                    #  Capturing an image houses images on the camera buffer. Trying
-                    #  to capture an image that does not exist will hang the camera.
-                    #
-                    #  *** LATER ***
-                    #  Once an image from the buffer is saved and/or no longer
-                    #  needed, the image must be released in order to keep the
-                    #  buffer from filling up.
+                        #  Retrieve next received image
+                        #
+                        #  *** NOTES ***
+                        #  Capturing an image houses images on the camera buffer. Trying
+                        #  to capture an image that does not exist will hang the camera.
+                        #
+                        #  *** LATER ***
+                        #  Once an image from the buffer is saved and/or no longer
+                        #  needed, the image must be released in order to keep the
+                        #  buffer from filling up.
 
-                    image_result = cam.GetNextImage(1000)
+                        image_result = cam.GetNextImage(1000)
 
-                    #  Ensure image completion
-                    if image_result.IsIncomplete():
-                        print('Image incomplete with image status %d ...' % image_result.GetImageStatus())
+                        #  Ensure image completion
+                        if image_result.IsIncomplete():
+                            print('Image incomplete with image status %d ...' % image_result.GetImageStatus())
 
-                    else:
+                        else:
 
-                        # Getting the image data as a numpy array
-                        image_data = image_result.GetNDArray()
+                            # Getting the image data as a numpy array
+                            image_data = image_result.GetNDArray()
+                            image = image_data.copy()
 
-	    # Deinitialize camera
-	    cam.DeInit()
+	        # Deinitialize camera
+	        cam.DeInit()
 
-        return image_data
+        return image
 
 	
 if __name__ == '__main__':
