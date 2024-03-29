@@ -310,7 +310,7 @@ class Printer:
             else:
                 raise Exception("Trying to move via a nonexistent axis")
 
-            captured_img = self.grab_image()
+            captured_img = self.grab_image_flir()
 
             line_widths.append(self.estimate_line_width(captured_img, cnt))
             cnt+=1

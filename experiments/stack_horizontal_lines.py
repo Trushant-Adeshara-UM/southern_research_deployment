@@ -21,6 +21,12 @@ parser = argparse.ArgumentParser(description="Pressure value parser")
 parser.add_argument('--displacement', type=float, required=True, help='Direction and length of traversal')
 parser.add_argument('--pressure', type=int, required=True, help='Pressure while printing')
 
+
+###############
+## Add Delta ##
+###############
+delta = 10
+
 # Parse the arguments
 args = parser.parse_args()
 
@@ -41,8 +47,6 @@ update_print_location = [ [ 0, 0, 0],
 displacement = args.displacement
 printer = Printer()
 speed = printer.base_speed
-cam = Camera()
-cam.run_camera()
 
 
 # Activate pressure (regulator + solenoid)
@@ -58,36 +62,17 @@ for location in update_print_location:
     printer.linear_b(-0.1, 5)
 
     # Update camera offset and move to camera
-    printer.camera_offset[1] = abs(displacement) + printer.base_camera_offset[1]
+    printer.camera_offset[1] = displacement + printer.base_camera_offset[1]
     printer.camera_offset[0] = update_print_location[cnt][0] + printer.base_camera_offset[0]
     printer.move_to_camera()
 
-    # Set interval to take images
-    intervals = [(abs(displacement)/2.5), (abs(displacement)/15), (abs(displacement)/15)]
-    line_widths = []
-    updated_line_width = 0
-
-    # Take three images and extract average line width
-    for it in range(0, 3):
-        printer.staging.goto(y=intervals[it], f=speed)
-        captured_img = cam.grab_image()
-        estimator =  LineWidthEstimator(captured_img)
-        binary, contour = estimator.contour_detection()
-        angle = estimator.get_orientation(contour)
-        rot_image = estimator.rotate_image(contour, -angle)
-        points, _, line_image = estimator.line_extraction(rot_image)
-        line_width = estimator.line_width(points, printer.controller.ref_line_width)f
-        line_widths.append(line_width)
-        cnt+=1
+    # Get line width from vision system
+    updated_line_width = printer.linear_estimator(1, -displacement, 50)
     
-    if len(line_widths) != 0:
-        updated_line_width = sum(line_widths) / len(line_widths)
-
-    printer.current_location = [printer.staging.x, printer.staging.y, printer.staging.z]
-
+    # Update next print location
     printer.print_location = update_print_location[cnt+1]
-
-    # Move back to nozzle
+    
+    # Move to nozzle
     printer.move_to_nozzle()
 
     # Update speed with process model
@@ -96,14 +81,14 @@ for location in update_print_location:
     # Increment counter
     cnt += 1
 
-
-
+    if abs(width_error) < delta:
+        break
 
 
 # Turn of pressure
 printer.set_pressure(0)
-#printer.staging.set_pressure_regulator(0)
-#printer.staging.set_pressure_solenoid(0)
+printer.staging.set_pressure_regulator(0)
+printer.staging.set_pressure_solenoid(0)
 
 
     
