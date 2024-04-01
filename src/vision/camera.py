@@ -44,6 +44,7 @@ class Camera:
             self.system.ReleaseInstance()
 
     def grab_image(self):
+        image = None
 
         # Acquire images
         sNodemap = self.cam.GetTLStreamNodeMap()
@@ -75,18 +76,18 @@ class Camera:
                 return False
 
             # Retrieve entry node from enumeration node
-            node_acquisition_mode_continuous = node_acquisition_mode.GetEntryByName('Continuous')
-            if not PySpin.IsReadable(node_acquisition_mode_continuous):
-                print('Unable to set acquisition mode to continuous (entry retrieval). Aborting...')
+            node_acquisition_mode_single = node_acquisition_mode.GetEntryByName('SingleFrame')
+            if not PySpin.IsReadable(node_acquisition_mode_single):
+                print('Unable to set acquisition mode to single frame (entry retrieval). Aborting...')
                 return False
 
             # Retrieve integer value from entry node
-            acquisition_mode_continuous = node_acquisition_mode_continuous.GetValue()
+            acquisition_mode_continuous = node_acquisition_mode_single.GetValue()
 
             # Set integer value from entry node as new value of enumeration node
-            node_acquisition_mode.SetIntValue(acquisition_mode_continuous)
+            node_acquisition_mode.SetIntValue(acquisition_mode_single)
 
-            print('Acquisition mode set to continuous...')
+            print('Acquisition mode set to single frame...')
 
             #  Begin acquiring images
             #
@@ -132,7 +133,7 @@ class Camera:
                 #  needed, the image must be released in order to keep the
                 #  buffer from filling up.
 
-                image_result = self.cam.GetNextImage(1000)
+                image_result = self.cam.GetNextImage()
 
                 #  Ensure image completion
                 if image_result.IsIncomplete():
@@ -145,9 +146,18 @@ class Camera:
                     image = image_data.copy()
 
             except:
+
+                # End acquisition
+                self.cam.EndAcquisition()
+
                 #Deinitialize camera
                 self.cam.DeInit()
                 print("Image Grab Failed")
+
+                # Release system resources
+                del self.cam
+                self.cam_list.Clear()
+                self.system.ReleaseInstance()
         
         except:
             print("Acquisition failed")
