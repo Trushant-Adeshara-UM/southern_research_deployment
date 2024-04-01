@@ -245,7 +245,7 @@ class Printer:
         image = camera.grab_image()
         return image
  
-    def estimate_line_width(self, image, cnt):
+    def estimate_line_width(self, image, cnt, data_path):
         """
         Method to calculate average line width using camera
 
@@ -261,27 +261,31 @@ class Printer:
         points, _, line_image = estimator.line_extraction(rot_image)
         line_width = estimator.line_width(points, self.ref_width)
 
+
         t_str = time.strftime("%Y%m%d-%H%M%S")
         img_str = "itr" + str(cnt) + "-" + t_str + "original" + ".png"
-        cv2.imwrite(img_str, image)
+        img_path = os.path.join(data_path, img_str)
+        cv2.imwrite(img_path, image)
 
         t_str = time.strftime("%Y%m%d-%H%M%S")
         img_str = "itr" + str(cnt) + "-" + t_str + "binary" + ".png"
-        cv2.imwrite(img_str, binary)
+        img_path = os.path.join(data_path, img_str)
+        cv2.imwrite(img_path, image)
 
         t_str = time.strftime("%Y%m%d-%H%M%S")
         img_str = "itr" + str(cnt) + "-" + t_str + "contour" + ".png"
-        cv2.imwrite(img_str, contour)
+        img_path = os.path.join(data_path, img_str)
+        cv2.imwrite(img_path, image)
 
         t_str = time.strftime("%Y%m%d-%H%M%S")
         img_str = "itr" + str(cnt) + "-" + t_str + "rot" + ".png"
-        cv2.imwrite(img_str, rot_image)
+        img_path = os.path.join(data_path, img_str)
+        cv2.imwrite(img_path, image)
 
         t_str = time.strftime("%Y%m%d-%H%M%S")
         img_str = "itr" + str(cnt) + "-" + t_str + "line" + ".png"
-
-        cv2.imwrite(img_str, line_image)
-
+        img_path = os.path.join(data_path, img_str)
+        cv2.imwrite(img_path, image)
 
         return line_width
 
@@ -298,6 +302,10 @@ class Printer:
         intervals = [(distance/2.5), (distance/15), (distance/15)]
         line_widths = []
 
+        data_path = os.path.join(root_path, 'data')
+
+        os.makedirs(data_path, exist_ok=True)
+
         cnt = 1
         for it in range(0, 3):
 
@@ -312,7 +320,7 @@ class Printer:
 
             captured_img = self.grab_image_flir()
 
-            line_widths.append(self.estimate_line_width(captured_img, cnt))
+            line_widths.append(self.estimate_line_width(captured_img, cnt, data_path))
             cnt+=1
 
         if len(line_widths) != 0:

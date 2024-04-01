@@ -257,7 +257,7 @@
 <pre><code>conda activate ./envs
 </code></pre>
 <p>Now install PySpin into your conda environment:</p>
-<pre><code>pip install addon/spinnaker_python-4.0.0.116-cp38-cp38-win_amd64/spinnaker_python-4.0.0.116-cp38-cp38-win_amd64.whl
+<pre><code>pip install addon/spinnaker_python/spinnaker_python-4.0.0.116-cp38-cp38-win_amd64.whl
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="miniconda"><a class="header" href="#miniconda">Miniconda</a></h1>
 <h3 id="1-download-miniconda-from-their-website"><a class="header" href="#1-download-miniconda-from-their-website">1. Download <a href="https://docs.anaconda.com/free/miniconda/miniconda-install/">Miniconda</a> from their website:</a></h3>
@@ -318,7 +318,7 @@
 <h3 id="2-open-root-directory-of-southern_research_deployment-in-git-bash"><a class="header" href="#2-open-root-directory-of-southern_research_deployment-in-git-bash">2. Open root directory of southern_research_deployment in Git Bash:</a></h3>
 <p><img src="software/../assets/srcode_git_bash.png" alt="" /></p>
 <h3 id="3-create-a-new-conda-environment-using-following-command-and-select-y-in-the-prompt"><a class="header" href="#3-create-a-new-conda-environment-using-following-command-and-select-y-in-the-prompt">3. Create a new conda environment using following command and select y in the prompt:</a></h3>
-<pre><code>conda create --prefix envs
+<pre><code>conda create --prefix envs python=3.8
 </code></pre>
 <p><img src="software/../assets/srcode_conda_env_create.png" alt="" /></p>
 <h3 id="4-activate-conda-environment-and-install-dependencies"><a class="header" href="#4-activate-conda-environment-and-install-dependencies">4. Activate conda environment and install dependencies:</a></h3>
@@ -481,21 +481,25 @@ python tests/stages/pressure_test.py --enable 0
 <h3 id="movement-test"><a class="header" href="#movement-test">Movement Test</a></h3>
 <p align="justify">In order to test the movement of the stages, three scripts corresponding to each stage is provided in <b>tests -> move</b> directory.</p>
 <p>Move stages in x axis:</p>
-<pre><code>python tests/move/x.py --length 10 --speed 1
+<pre><code>python tests/move/x.py --displacement 10 --speed 1
 </code></pre>
 <p>Move stages in y axis:</p>
-<pre><code>python tests/move/y.py --length 10 --speed 1
+<pre><code>python tests/move/y.py --displacement 10 --speed 1
 </code></pre>
 <p>Move stages in z axis:</p>
-<pre><code>python tests/move/z.py --length 2 --speed 0.1
+<pre><code>python tests/move/z.py --displacement 2 --speed 0.1
+</code></pre>
+<p>Move stages in b axis:</p>
+<pre><code>python tests/move/b.py --displacement 0.1 --speed 5
+python tests/move/b.py --displacement -0.1 --speed 5
 </code></pre>
 <h3 id="print-test"><a class="header" href="#print-test">Print Test</a></h3>
 <p align="justify">In order to test the printing, two scripts are provided one of which prints vertically and other horizontally in <b>tests -> print</b> directory.</p>
 <p>Print line horizontally:</p>
-<pre><code>python tests/print/horizontal_line.py --length 15 --speed 0.4
+<pre><code>python tests/print/horizontal_line.py --displacement 15 --speed 0.4 --pressure 10
 </code></pre>
 <p>Print line vertically:</p>
-<pre><code>python tests/print/vertical_line.py --length 15 --speed 0.4
+<pre><code>python tests/print/vertical_line.py --displacement 15 --speed 0.4 --pressure 10
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="vision-overview"><a class="header" href="#vision-overview">Vision Overview</a></h1>
 <p align="justify">The end goal is to have camera interface which can easily be configured such that both Pylon and Spin API could be used in the system.</p>
