@@ -79,7 +79,7 @@ class Camera:
         self.camera.Init()
 
         # Retrieve the nodemap
-        self.nodemap = camera.GetNodeMap()
+        self.nodemap = self.camera.GetNodeMap()
 
         # Set acquisition mode to single frame
         self.acquisition_mode = PySpin.CEnumerationPtr(self.nodemap.GetNode('AcquisitionMode'))
