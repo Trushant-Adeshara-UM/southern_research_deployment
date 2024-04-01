@@ -305,7 +305,7 @@ class Printer:
         """
         #intervals = [(distance/2.5), (distance/15), (distance/15)]
         #intervals = [(3/4*self.width*self.px_mm), (11/10*self.width*self.px_mm)]
-        intervals = [4, 4] 
+        intervals = [4/15 * distance, 4/15 * distance] 
         line_widths = []
 
         dir_name = os.path.join('data', str(cnt))
@@ -315,7 +315,7 @@ class Printer:
         os.makedirs(data_path, exist_ok=True)
 
         cnt = 1
-        for it in range(0, 3):
+        for it in range(0, len(intervals)):
 
             if (axis == 0):
                 self.staging.goto(x=intervals[it], f=speed)
