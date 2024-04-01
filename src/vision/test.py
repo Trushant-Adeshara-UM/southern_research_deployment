@@ -24,8 +24,10 @@ try:
     # Capture a single image
     image_result = camera.GetNextImage()
 
+    image_data = image_result.GetNDArray()
+
     # Display the image
-    cv2.imshow('Example - Show image in window', image_result)
+    cv2.imshow('Example - Show image in window', image_data)
 
     # Wait for a key press and then destroy all windows
     cv2.waitKey(0)
