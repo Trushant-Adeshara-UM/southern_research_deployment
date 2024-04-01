@@ -39,10 +39,10 @@ class Camera:
 
         try:
             # Capture a single image
-            image_result = camera.GetNextImage()
+            image_result = self.camera.GetNextImage()
             
             # Convert image to CV Mat compatible
-            image_data = image_result.GetNDArray()
+            image = image_result.GetNDArray()
 
 
             # Ensure the image capture was successful
