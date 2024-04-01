@@ -13,6 +13,7 @@ sys.path.insert(0, root_path)
 from system.printer import Printer
 from vision.camera import Camera
 from vision.line_width_estimator import LineWidthEstimator
+from utilities.csv_writer import CSVWriter
 
 # Create the parser
 parser = argparse.ArgumentParser(description="Pressure value parser")
@@ -54,8 +55,25 @@ printer.staging.set_pressure_regulator(1)
 printer.set_pressure(args.pressure)
 printer.staging.set_pressure_solenoid(1)
 
+# Initialize csv writer class with fields
+fieldnames = ['srno', 'ref_line_width', 'updated_line_width', 'width_error', 'stage_speed'] 
+
+# Create an instance of the CSVWriter class
+csv_writer = CSVWriter('output.csv', fieldnames)
+
+# Open the file for writing
+csv_writer.open()
+
 cnt = 0
+
+width_error = 0
+
 for location in update_print_location:
+
+    # Log data
+    csv_writer.write_row({'srno': cnt, 'ref_line_width': printer.ref_width, 'updated_line_width': printer.estimated_line_width, 
+                          'width_error': width_error, 'stage_speed': speed})
+
     # Print single line
     printer.linear_b(0.1, 5)
     printer.linear(1, displacement, speed)
@@ -84,6 +102,8 @@ for location in update_print_location:
     if abs(width_error) < delta:
         break
 
+# Close the file
+csv_writer.close()
 
 # Turn of pressure
 printer.set_pressure(0)
