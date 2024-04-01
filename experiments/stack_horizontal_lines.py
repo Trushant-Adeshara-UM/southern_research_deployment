@@ -94,7 +94,7 @@ for location in update_print_location:
     printer.move_to_nozzle()
 
     # Update speed with process model
-    speed, width_error = printer.update_process_model(updated_line_width, speed )
+    speed, width_error = printer.update_process_speed(updated_line_width, speed )
     
     # Increment counter
     cnt += 1

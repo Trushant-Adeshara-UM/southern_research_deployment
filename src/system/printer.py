@@ -263,29 +263,29 @@ class Printer:
 
 
         t_str = time.strftime("%Y%m%d-%H%M%S")
-        img_str = "itr" + str(cnt) + "-" + t_str + "original" + ".png"
+        img_str = "itr" + str(cnt) + "-" + t_str + "_original" + ".png"
         img_path = os.path.join(data_path, img_str)
         cv2.imwrite(img_path, image)
 
         t_str = time.strftime("%Y%m%d-%H%M%S")
-        img_str = "itr" + str(cnt) + "-" + t_str + "binary" + ".png"
+        img_str = "itr" + str(cnt) + "-" + t_str + "_binary" + ".png"
         img_path = os.path.join(data_path, img_str)
-        cv2.imwrite(img_path, image)
+        cv2.imwrite(img_path, binary)
 
         t_str = time.strftime("%Y%m%d-%H%M%S")
-        img_str = "itr" + str(cnt) + "-" + t_str + "contour" + ".png"
+        img_str = "itr" + str(cnt) + "-" + t_str + "_contour" + ".png"
         img_path = os.path.join(data_path, img_str)
-        cv2.imwrite(img_path, image)
+        cv2.imwrite(img_path, contour)
 
         t_str = time.strftime("%Y%m%d-%H%M%S")
-        img_str = "itr" + str(cnt) + "-" + t_str + "rot" + ".png"
+        img_str = "itr" + str(cnt) + "-" + t_str + "_rot" + ".png"
         img_path = os.path.join(data_path, img_str)
-        cv2.imwrite(img_path, image)
+        cv2.imwrite(img_path, rot_image)
 
         t_str = time.strftime("%Y%m%d-%H%M%S")
-        img_str = "itr" + str(cnt) + "-" + t_str + "line" + ".png"
+        img_str = "itr" + str(cnt) + "-" + t_str + "_line" + ".png"
         img_path = os.path.join(data_path, img_str)
-        cv2.imwrite(img_path, image)
+        cv2.imwrite(img_path, line_image)
 
         return line_width
 
