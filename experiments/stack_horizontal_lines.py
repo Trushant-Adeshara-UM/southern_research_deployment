@@ -35,14 +35,14 @@ print(args)
 
 # Print receipe
 update_print_location = [ [ 0, 0, 0],
-                              [ -1.5, 0, 0],
-                              [ -2.5, 0, 0], 
-                              [ -3.5, 0, 0],
-                              [ -4.5, 0, 0],
-                              [ -5.5, 0, 0],
-                              [ -6.5, 0, 0],
-                              [ -7.5, 0, 0], 
-                              [ -8.5, 0, 0] ]
+                              [ -3, 0, 0],
+                              [ -6, 0, 0], 
+                              [ -9, 0, 0],
+                              [ -12, 0, 0],
+                              [ -15, 0, 0],
+                              [ -18, 0, 0],
+                              [ -21, 0, 0], 
+                              [ -24, 0, 0] ]
 
 # Take input arguements from user
 displacement = args.displacement
