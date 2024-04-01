@@ -82,7 +82,11 @@ class Printer:
         """
         Initializes a new instance of Printer class.
         """
-
+        # Load camera parameters
+        self.height = camera_cfg['params']['height']
+        self.wdith = camera_cfg['params']['width']
+        self.px_mm = camera_cfg['params']['px_mm']
+        
         # Axis specifier
         self.xaxis = system_cfg['axes']['x_axis']['id']
         self.yaxis = system_cfg['axes']['y_axis']['id']
@@ -299,7 +303,8 @@ class Printer:
             distance (float)   :   Distance to move by
             speed    (float)   :   Speed to move with
         """
-        intervals = [(distance/2.5), (distance/15), (distance/15)]
+        #intervals = [(distance/2.5), (distance/15), (distance/15)]
+        intervals = [(3/4*self.width), (11/10*self.width), (11/10*self.width)]
         line_widths = []
 
         dir_name = os.path.join('data', str(cnt))
