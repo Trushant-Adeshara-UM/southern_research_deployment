@@ -85,7 +85,7 @@ for location in update_print_location:
     printer.move_to_camera()
 
     # Get line width from vision system
-    updated_line_width = printer.linear_estimator(1, -displacement, 50)
+    updated_line_width = printer.linear_estimator(1, -displacement, 50, cnt+1)
     
     # Update next print location
     printer.print_location = update_print_location[cnt+1]

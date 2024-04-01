@@ -289,7 +289,7 @@ class Printer:
 
         return line_width
 
-    def linear_estimator(self, axis, distance, speed):
+    def linear_estimator(self, axis, distance, speed, cnt):
         """
         Method that takes three iterations over entire line
         and calls line_width_estimator function
@@ -302,7 +302,9 @@ class Printer:
         intervals = [(distance/2.5), (distance/15), (distance/15)]
         line_widths = []
 
-        data_path = os.path.join(root_path, 'data')
+        dir_name = os.path.join('data', str(cnt))
+    
+        data_path = os.path.join(root_path, dir_name)
 
         os.makedirs(data_path, exist_ok=True)
 
