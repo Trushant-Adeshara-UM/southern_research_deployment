@@ -305,7 +305,7 @@ class Printer:
         """
         #intervals = [(distance/2.5), (distance/15), (distance/15)]
         #intervals = [(3/4*self.width*self.px_mm), (11/10*self.width*self.px_mm)]
-        intervals = [(4/15 * distance), (11/15 * distance)]
+        intervals = [4, 4] 
         line_widths = []
 
         dir_name = os.path.join('data', str(cnt))
