@@ -70,9 +70,6 @@ width_error = 0
 
 flag = False
 
-# Log data -> Base Condition
-csv_writer.write_row({'srno': cnt, 'ref_line_width': printer.ref_width, 'updated_line_width': printer.estimated_line_width, 'width_error': width_error, 'stage_speed': speed})
-
 for location in update_print_location:
 
     if flag == True and abs(width_error) < delta:
