@@ -68,11 +68,14 @@ cnt = 0
 
 width_error = 0
 
-for location in update_print_location:
-
-    # Log data
+# Log data -> Base Condition
     csv_writer.write_row({'srno': cnt, 'ref_line_width': printer.ref_width, 'updated_line_width': printer.estimated_line_width, 
                           'width_error': width_error, 'stage_speed': speed})
+
+for location in update_print_location:
+
+    if abs(width_error) < delta:
+        break
 
     # Print single line
     printer.linear_b(0.1, 5)
@@ -93,14 +96,16 @@ for location in update_print_location:
     # Move to nozzle
     printer.move_to_nozzle()
 
+    # Log data
+    csv_writer.write_row({'srno': cnt, 'ref_line_width': printer.ref_width, 'updated_line_width': printer.estimated_line_width, 
+                          'width_error': width_error, 'stage_speed': speed})
+
     # Update speed with process model
     speed, width_error = printer.update_process_speed(updated_line_width, speed )
     
     # Increment counter
     cnt += 1
 
-    if abs(width_error) < delta:
-        break
 
 # Close the file
 csv_writer.close()
