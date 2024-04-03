@@ -96,12 +96,14 @@ for location in update_print_location:
     # Move to nozzle
     printer.move_to_nozzle()
 
+    # Update speed with process model
+    temp_speed, width_error = printer.update_process_speed(updated_line_width, speed )
+
     # Log data
     csv_writer.write_row({'srno': cnt+1, 'ref_line_width': printer.ref_width, 'updated_line_width': printer.estimated_line_width, 'width_error': width_error, 'stage_speed': speed})
 
-    # Update speed with process model
-    speed, width_error = printer.update_process_speed(updated_line_width, speed )
-    
+    speed = temp_speed
+  
     # Increment counter
     cnt += 1
 
