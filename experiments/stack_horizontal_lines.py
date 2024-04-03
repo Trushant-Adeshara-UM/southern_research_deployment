@@ -69,8 +69,7 @@ cnt = 0
 width_error = 0
 
 # Log data -> Base Condition
-    csv_writer.write_row({'srno': cnt, 'ref_line_width': printer.ref_width, 'updated_line_width': printer.estimated_line_width, 
-                          'width_error': width_error, 'stage_speed': speed})
+csv_writer.write_row({'srno': cnt, 'ref_line_width': printer.ref_width, 'updated_line_width': printer.estimated_line_width, 'width_error': width_error, 'stage_speed': speed})
 
 for location in update_print_location:
 
@@ -97,8 +96,7 @@ for location in update_print_location:
     printer.move_to_nozzle()
 
     # Log data
-    csv_writer.write_row({'srno': cnt, 'ref_line_width': printer.ref_width, 'updated_line_width': printer.estimated_line_width, 
-                          'width_error': width_error, 'stage_speed': speed})
+    csv_writer.write_row({'srno': cnt, 'ref_line_width': printer.ref_width, 'updated_line_width': printer.estimated_line_width, 'width_error': width_error, 'stage_speed': speed})
 
     # Update speed with process model
     speed, width_error = printer.update_process_speed(updated_line_width, speed )
